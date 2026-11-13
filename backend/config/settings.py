@@ -37,6 +37,7 @@ class Settings(BaseSettings):
     # Clerk Authentication
     CLERK_SECRET_KEY: str = ""
     CLERK_PUBLISHABLE_KEY: str = ""
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: str = ""
 
     model_config = SettingsConfigDict(
         env_file=(str(BACKEND_DIR / ".env"), str(ROOT_DIR / ".env")),
