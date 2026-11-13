@@ -38,6 +38,7 @@ When the backend is completed:
 - Text is important to represent the idea, but it must be purposeful, readable, and structured.
 - No volatile, cluttered screens; never merge too much data onto one view.
 - No heavy cards packed with raw technical steps. Normal users and judges need clear, digestible conclusions.
+- **Micro-AIDA & In-Context Reassurance:** Every screen must capture attention, build desire, and address potential objections in place—without relying on lazy FAQ dump blocks.
 
 ## Rule 6: Flawless, Intuitive Interaction
 - The way data is presented and how the user interacts with it must be smooth, natural, and effortless.

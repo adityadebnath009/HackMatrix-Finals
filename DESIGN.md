@@ -33,3 +33,10 @@
 - **The Squint Test:** Visual hierarchy must ensure the single focal element and CTA dominate the viewport even when blurred.
 - **The Spark Effect (Zero Wrongful Delegation):** The first action must require lowest possible commitment (1-click navigation into workspace; zero forced logins). Making decisions easier for people is our job.
 - **Architecture of Separation:** The landing page (`/`) is 100% storytelling, proof, and navigation. The actual product tool lives on its dedicated route (`/app` or `/workspace`). Never embed cluttered interactive sandboxes into the landing page flow.
+
+## 6. Conversion Architecture (UX Planet "Landing Pages That Sell" Standard)
+- **Micro-AIDA in Every Viewport:** Every individual screen must carry its own Attention (pattern interrupt), Interest (benefit), Desire (visual proof), and Action (low-friction forward momentum). Never defer action only to the bottom footer.
+- **Pattern Interrupts:** Open each section with an unconventional, honest assertion that breaks standard corporate cliché.
+- **Organic Objection Handling:** Dissolve doubts in context. Answer privacy, accuracy, and latency concerns immediately alongside the feature, not hidden in a distant FAQ.
+- **Psychological Ownership:** Display the real product UI populated with lifelike, high-stakes data so the user mentally adopts the product immediately.
+- **Narrative Momentum:** Maintain continuous visual and intellectual curiosity pulling the reader through the 5-screen narrative.
