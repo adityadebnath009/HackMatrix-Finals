@@ -28,9 +28,11 @@ When the backend is completed:
 - Simply plug in the backend URL in one central place (`.env` or `NEXT_PUBLIC_API_URL`).
 - Never rewrite UI components, hunt down mock data, or refactor layouts to switch from mock to live. The frontend auto-detects the backend, with seamless fallback if offline.
 
-## Rule 4: The Landing Page is a Story, Not a Technical Architecture Diagram
+## Rule 4: The Landing Page is a Story, Not a Technical Blueprint or Cluttered Sandbox
 - The landing page must take the user on an intuitive, compelling journey from problem to solution to proof.
 - It is not a place to dump technical blueprints or raw engineering notes—it communicates the human value and impact.
+- **Dedicated Workspace Separation:** The landing page (`/`) is 100% storytelling, proof, and navigation. The interactive working tool lives on a dedicated route (`/app` or `/workspace`). Never embed heavy interactive sandboxes in the middle of the marketing landing page.
+- **One CTA Per Viewport (The Spark Effect):** Focus the user on exactly one clear, low-friction action. Lowest commitment possible; zero forced logins or wrongful delegation.
 
 ## Rule 5: Clean UI Means Clarity, Never Data Overload
 - Text is important to represent the idea, but it must be purposeful, readable, and structured.

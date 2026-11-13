@@ -5,7 +5,7 @@
 ## 1. Core Philosophy
 - **Anti-Slop Standard:** Clean, confident editorial software aesthetic (Figma, Linear, Vigil standard).
 - **One Section Per Screen:** Each viewport (1440x900) contains exactly one idea, one headline, and one visual representation. No crowded multi-card clutter.
-- **The Landing Page is a Story:** Human-centric narrative (Problem -> Proof -> Architecture -> Interactive Sandbox -> Tamper-Evident Verification).
+- **The Landing Page is a Story:** Human-centric narrative (Vision -> Problem -> Transformation -> Pillars -> Outcomes & Gateway to `/app`). No cluttered interactive sandboxes on the landing page.
 
 ## 2. Color System
 - **Ground / Canvas:** High-contrast editorial tone (Ink Black `#111111` or Bold Signature Tone `#F48B94`).
@@ -25,3 +25,11 @@
 - **Dithered / Retro Accents:** 1-bit pixelated halftones and wave patterns for technical schematics.
 - **Interactive Sandboxes:** Single clean input/slider with immediate visual response.
 - **Progressive Disclosure:** Headline verdict visible upfront; deep technical logs collapsed behind an expandable drawer.
+
+## 5. Landing Page Psychology & UX Standards (Growth.Design Principles)
+- **Clear Purpose First:** One benefit-oriented headline per section answering *"What do I get out of this and why should I care?"*. Avoid elevated cognitive load or mixed signals.
+- **One CTA Per Screen:** Exactly one clear, high-contrast action button per viewport fold.
+- **Strict 2-Font Limit:** Swiss/Geometric Sans for headlines and copy (`Inter`/`Geist`); Monospace (`JetBrains Mono`) for bracket tags and metrics.
+- **The Squint Test:** Visual hierarchy must ensure the single focal element and CTA dominate the viewport even when blurred.
+- **The Spark Effect (Zero Wrongful Delegation):** The first action must require lowest possible commitment (1-click navigation into workspace; zero forced logins). Making decisions easier for people is our job.
+- **Architecture of Separation:** The landing page (`/`) is 100% storytelling, proof, and navigation. The actual product tool lives on its dedicated route (`/app` or `/workspace`). Never embed cluttered interactive sandboxes into the landing page flow.
