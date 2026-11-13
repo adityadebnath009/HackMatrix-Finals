@@ -13,6 +13,10 @@ Before touching any code, map out the backend plan phase by phase. For every pha
 4. **Flow Layer (`flow/`):** Coordinates multi-step asynchronous workflows and AI evaluation chains across services.
 5. **Custom Exceptions Only (`exceptions/`):** No generic untyped exceptions. All errors must inherit from domain exceptions (`ResourceNotFoundException`, `ValidationException`, `DatabaseOperationException`) and be handled via global exception handlers.
 
+### Mandatory Technology Invariants:
+- **Pydantic Schemas (`schemas/`):** 100% of request payloads, response data, and service DTOs must use strict Pydantic v2 schemas. No loose dictionaries or untyped payloads across controller/service boundaries.
+- **SQLAlchemy ORM (`models/` & `repositories/`):** All database operations, tables, and transactions must use async SQLAlchemy (`AsyncSession` + `select/update/delete`) connected to Neon PostgreSQL. Zero raw driver queries or unmanaged DB connections.
+
 ## Rule 2: Complete Frontend Generation via Defined Contracts
 Once the contract is defined, generate and build the entire frontend from A to Z, even if the backend is not yet started:
 - The UI connects to structured mock data matching the exact response contract.
