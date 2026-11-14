@@ -50,6 +50,18 @@ class ProxyService(BaseService):
         self.active_guardrails[guardrail.target_id] = guardrail
         self.log_action("guardrail_registered", {"target_id": guardrail.target_id, "id": guardrail.guardrail_id})
 
+    @staticmethod
+    def normalize_input(text: str) -> str:
+        """
+        Stage 1 of the Defense Cascade:
+        Strips invisible zero-width characters, direction overrides, and delimiter masking.
+        """
+        # Strip zero-width spaces, joiners, and byte order marks
+        cleaned = re.sub(r"[\u200B-\u200D\uFEFF\u202A-\u202E]", "", text)
+        # Collapse multiple whitespace/tabs/newlines
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+        return cleaned
+
     async def inspect_and_respond(
         self,
         target_id: str,
@@ -57,11 +69,11 @@ class ProxyService(BaseService):
         target_name: str = "Apex Wealth Assistant",
     ) -> ProxyChatResult:
         """
-        Executes sub-400ms inline packet inspection.
+        Executes sub-400ms inline packet inspection across the 4-stage defense cascade.
         Returns deflected response if attack is detected, or answers cleanly.
         """
         start_time = time.perf_counter()
-        prompt = user_prompt.strip()
+        prompt = self.normalize_input(user_prompt)
 
         # Check against active guardrail regex or baseline patterns
         active_guardrail = self.active_guardrails.get(target_id)
