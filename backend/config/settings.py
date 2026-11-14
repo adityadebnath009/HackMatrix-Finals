@@ -30,9 +30,12 @@ class Settings(BaseSettings):
     DATABASE_URL_POOLED: str = ""
     NEON_AUTH_BASE_URL: str = ""
 
-    # AI API Credentials
-    GROQ_API_KEY: str = ""
+    # AI Engine Credentials (Gemini API Exclusively)
     GEMINI_API_KEY: str = ""
+    GOOGLE_API_KEY: str = ""
+    GEMINI_FAST_MODEL: str = "gemini-3.5-flash"
+    GEMINI_REASONING_MODEL: str = "gemini-3.5-flash"
+    GEMINI_LITE_MODEL: str = "gemini-3.1-flash-lite"
 
     # Clerk Authentication
     CLERK_SECRET_KEY: str = ""
@@ -44,6 +47,10 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore"
     )
+
+    @property
+    def effective_gemini_key(self) -> str:
+        return self.GEMINI_API_KEY or self.GOOGLE_API_KEY or os.getenv("GEMINI_API_KEY", "") or os.getenv("GOOGLE_API_KEY", "")
 
 
 @lru_cache
