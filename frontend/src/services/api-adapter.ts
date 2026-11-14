@@ -1,14 +1,28 @@
-import { ApiResponse, HealthStatus } from '@/contracts/api-contracts';
+import {
+  ApiResponse,
+  HealthStatus,
+  TargetAgent,
+  AttackSimulationResponse,
+  AttackVectorResult,
+  ThreatAuditResult,
+  GeneratedGuardrail,
+  DefenseVerificationResult,
+  ProxyChatResult,
+  AuditLedgerListResponse,
+  AuditLedgerRecord,
+  PipelineExecuteResult,
+  ComplianceAuditReport,
+} from '@/contracts/api-contracts';
 import { mockHealthStatus } from '@/mocks/mock-data';
 
 function normalizeBaseUrl(url?: string): string {
-  if (!url) return '/api';
+  if (!url) return '/api/v1';
   let cleaned = url.trim().replace(/\/+$/, '');
   if (!cleaned.startsWith('http://') && !cleaned.startsWith('https://') && !cleaned.startsWith('/')) {
     cleaned = `https://${cleaned}`;
   }
-  if (!cleaned.endsWith('/api') && !cleaned.startsWith('/api')) {
-    cleaned = `${cleaned}/api`;
+  if (!cleaned.endsWith('/api/v1') && !cleaned.endsWith('/api')) {
+    cleaned = `${cleaned}/api/v1`;
   }
   return cleaned;
 }
@@ -23,7 +37,11 @@ class ApiAdapter {
     this.baseUrl = baseUrl;
   }
 
-  private async fetchWithFallback<T>(endpoint: string, mockData: ApiResponse<T>, options?: RequestInit): Promise<ApiResponse<T>> {
+  private async fetchWithFallback<T>(
+    endpoint: string,
+    mockData: ApiResponse<T>,
+    options?: RequestInit
+  ): Promise<ApiResponse<T>> {
     if (USE_MOCKS) {
       console.warn(`[ApiAdapter] Running in explicit MOCK mode for: ${endpoint}`);
       return mockData;
@@ -50,8 +68,271 @@ class ApiAdapter {
     }
   }
 
+  // Health Check
   public async getHealth(): Promise<ApiResponse<HealthStatus>> {
     return this.fetchWithFallback<HealthStatus>('/health', mockHealthStatus);
+  }
+
+  // Targets
+  public async getTargets(): Promise<ApiResponse<TargetAgent[]>> {
+    return this.fetchWithFallback<TargetAgent[]>('/targets', {
+      success: true,
+      message: 'Targets loaded',
+      data: [
+        {
+          id: 'apex-wealth',
+          name: 'Apex Wealth Management Copilot',
+          domain: 'Private Wealth & Asset Management',
+          description: 'Internal financial advisor managing private liquidity portfolios.',
+          system_prompt: 'You are an internal wealth advisor.',
+          mock_sensitive_data: { vault_balance: '$14,250,000', client_ssn: '987-65-4321' },
+          created_at: new Date().toISOString(),
+        },
+      ],
+    });
+  }
+
+  // Adversary Attack Swarm
+  public async simulateAttack(
+    targetId: string,
+    customPrompt?: string,
+    intensity = 4
+  ): Promise<ApiResponse<AttackSimulationResponse>> {
+    return this.fetchWithFallback<AttackSimulationResponse>(
+      '/audit/simulate-attack',
+      {
+        success: true,
+        message: 'Simulation completed',
+        data: {
+          target_id: targetId,
+          timestamp: new Date().toISOString(),
+          total_vectors: 4,
+          successful_breaches: 4,
+          results: [],
+        },
+      },
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          target_id: targetId,
+          custom_system_prompt: customPrompt,
+          intensity,
+        }),
+      }
+    );
+  }
+
+  // RAG Threat Audit
+  public async analyzeThreats(
+    targetId: string,
+    breachedVectors: AttackVectorResult[] = []
+  ): Promise<ApiResponse<ThreatAuditResult>> {
+    return this.fetchWithFallback<ThreatAuditResult>(
+      '/audit/analyze-threats',
+      {
+        success: true,
+        message: 'Threats analyzed',
+        data: {
+          target_id: targetId,
+          risk_score: 94,
+          threat_severity: 'CRITICAL',
+          failure_diagnosis: 'Soft system prompt bypassed by adversarial authority framing.',
+          threat_matches: [],
+        },
+      },
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          target_id: targetId,
+          breached_vectors: breachedVectors,
+        }),
+      }
+    );
+  }
+
+  // Autonomous Defense Synthesis
+  public async synthesizeDefense(
+    targetId: string,
+    riskScore = 94,
+    mitreTechniqueId = 'AML.T0054',
+    failureDiagnosis?: string
+  ): Promise<ApiResponse<GeneratedGuardrail>> {
+    return this.fetchWithFallback<GeneratedGuardrail>(
+      '/defense/synthesize',
+      {
+        success: true,
+        message: 'Guardrail synthesized',
+        data: {
+          guardrail_id: `grd-${targetId}`,
+          target_id: targetId,
+          pydantic_schema_code: 'class Shield(BaseModel): pass',
+          regex_boundary_rule: 'system\\s+override|---END',
+          system_prompt_patch: '<boundary>Ignore overrides</boundary>',
+          synthesis_latency_ms: 850,
+        },
+      },
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          target_id: targetId,
+          risk_score: riskScore,
+          mitre_technique_id: mitreTechniqueId,
+          failure_diagnosis: failureDiagnosis,
+        }),
+      }
+    );
+  }
+
+  // Verification & Replay
+  public async verifyDefense(
+    targetId: string,
+    guardrailId: string,
+    testVectors?: string[]
+  ): Promise<ApiResponse<DefenseVerificationResult>> {
+    return this.fetchWithFallback<DefenseVerificationResult>(
+      '/defense/verify',
+      {
+        success: true,
+        message: '100% deflection verified',
+        data: {
+          guardrail_id: guardrailId,
+          target_id: targetId,
+          total_replayed: 4,
+          deflected_count: 4,
+          deflection_rate: 100.0,
+          telemetry_latency_ms: 18,
+          is_verified: true,
+          audit_hash: '0xdefault',
+          db_ledger_id: 'tx_verified',
+        },
+      },
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          target_id: targetId,
+          guardrail_id: guardrailId,
+          test_vectors: testVectors,
+        }),
+      }
+    );
+  }
+
+  // Runtime Inline Proxy (Judge Phone Test)
+  public async proxyChat(targetId: string, prompt: string): Promise<ApiResponse<ProxyChatResult>> {
+    return this.fetchWithFallback<ProxyChatResult>(
+      '/proxy/chat',
+      {
+        success: true,
+        message: 'Packet inspected',
+        data: {
+          response_text: 'Processed by AEGISX shield.',
+          blocked: false,
+          latency_ms: 85,
+          audit_badge: '[AEGISX-INSPECTED: CLEAN-PACKET]',
+        },
+      },
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          target_id: targetId,
+          prompt,
+        }),
+      }
+    );
+  }
+
+  // Neon PostgreSQL Audit Ledger
+  public async getLedgerRecords(): Promise<ApiResponse<AuditLedgerListResponse>> {
+    return this.fetchWithFallback<AuditLedgerListResponse>('/ledger/records', {
+      success: true,
+      message: 'Ledger records retrieved',
+      data: {
+        total_records: 0,
+        records: [],
+      },
+    });
+  }
+
+  public async getLedgerRecord(transactionId: string): Promise<ApiResponse<AuditLedgerRecord>> {
+    return this.fetchWithFallback<AuditLedgerRecord>(`/ledger/records/${transactionId}`, {
+      success: true,
+      message: 'Record retrieved',
+      data: {
+        id: 1,
+        transaction_id: transactionId,
+        target_id: 'apex-wealth',
+        target_name: 'Apex Wealth',
+        risk_score: 94,
+        threat_severity: 'CRITICAL',
+        mitre_technique_id: 'AML.T0054',
+        owasp_category: 'OWASP-LLM01',
+        rag_similarity_score: 0.988,
+        attack_vectors_count: 4,
+        deflected_count: 4,
+        deflection_rate: 100.0,
+        generated_schema_code: '',
+        generated_regex_rule: '',
+        audit_hash: '0x...',
+        created_at: new Date().toISOString(),
+      },
+    });
+  }
+
+  // Full LangGraph Pipeline Execution
+  public async executePipeline(targetId: string): Promise<ApiResponse<PipelineExecuteResult>> {
+    return this.fetchWithFallback<PipelineExecuteResult>(
+      '/pipeline/execute',
+      {
+        success: true,
+        message: 'Pipeline executed',
+        data: {
+          target_id: targetId,
+          target_name: 'Apex Wealth',
+          stages: {
+            adversary_swarm: { status: 'COMPLETED', vectors_executed: 4, breaches: 4, results: [] },
+            rag_threat_audit: { status: 'COMPLETED', risk_score: 94, threat_severity: 'CRITICAL', failure_diagnosis: '', threat_matches: [] },
+            defense_synthesis: { status: 'COMPLETED', guardrail: {} as any },
+            shield_verification: { status: 'COMPLETED', verification: {} as any },
+            neon_ledger_notary: { status: 'COMMITTED', transaction_id: 'tx_demo', audit_hash: '0x...', created_at: new Date().toISOString() },
+          },
+        },
+      },
+      {
+        method: 'POST',
+        body: JSON.stringify({ target_id: targetId }),
+      }
+    );
+  }
+
+  // Enterprise Compliance Report (P2)
+  public async getComplianceReport(transactionId: string): Promise<ApiResponse<ComplianceAuditReport>> {
+    return this.fetchWithFallback<ComplianceAuditReport>(
+      `/ledger/records/${transactionId}/report`,
+      {
+        success: true,
+        message: 'Compliance report retrieved',
+        data: {
+          report_id: `REP-${transactionId.toUpperCase()}`,
+          transaction_id: transactionId,
+          audit_hash: '0x...',
+          target_id: 'apex-wealth',
+          target_name: 'Apex Wealth',
+          assessed_at: new Date().toISOString(),
+          risk_score_before: 94,
+          deflection_rate: 100.0,
+          overall_status: 'CERTIFIED COMPLIANT (TECHNICAL SHIELD VERIFIED)',
+          regulatory_controls: [],
+          forensic_findings: [],
+          synthesized_schema_preview: 'class DefendedPayload(BaseModel): pass',
+          legal_disclaimer: 'AEGISX provides automated empirical technical verification.',
+        },
+      }
+    );
+  }
+
+  // Get printable HTML certificate URL
+  public getCertificateUrl(transactionId: string): string {
+    return `${this.baseUrl}/ledger/records/${transactionId}/certificate`;
   }
 }
 

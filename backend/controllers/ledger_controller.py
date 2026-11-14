@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import HTMLResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.config.database import get_db
 from backend.schemas.common import BaseResponse
@@ -6,7 +7,9 @@ from backend.schemas.ledger import (
     AuditLedgerRecordResponse,
     AuditLedgerListResponse,
 )
+from backend.schemas.compliance import ComplianceAuditReport
 from backend.repositories.audit_ledger_repository import AuditLedgerRepository
+from backend.services.compliance_service import get_compliance_service, ComplianceService
 
 router = APIRouter(prefix="/api/v1/ledger", tags=["Cryptographic Audit Ledger"])
 
@@ -84,3 +87,47 @@ async def get_ledger_record(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Audit block with transaction ID '{transaction_id}' not found.",
     )
+
+
+@router.get("/records/{transaction_id}/report", response_model=BaseResponse[ComplianceAuditReport])
+async def get_compliance_report(
+    transaction_id: str,
+    db: AsyncSession = Depends(get_db),
+    compliance_service: ComplianceService = Depends(get_compliance_service),
+) -> BaseResponse[ComplianceAuditReport]:
+    """
+    Generate an enterprise regulatory compliance report for a specific audit ledger record.
+    Maps findings to EU AI Act Article 15(1), NIST AI RMF, ISO/IEC 42001, and MITRE ATLAS.
+    """
+    report = await compliance_service.generate_report(db, transaction_id)
+    if not report:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Ledger record with transaction ID '{transaction_id}' not found for compliance report generation.",
+        )
+    return BaseResponse(
+        success=True,
+        message="Enterprise compliance report generated successfully.",
+        data=report,
+    )
+
+
+@router.get("/records/{transaction_id}/certificate", response_class=HTMLResponse)
+async def get_compliance_certificate(
+    transaction_id: str,
+    db: AsyncSession = Depends(get_db),
+    compliance_service: ComplianceService = Depends(get_compliance_service),
+) -> HTMLResponse:
+    """
+    Renders an official print-ready Cryptographic Audit & Compliance Certificate.
+    Includes verification watermark, immutable SHA-256 block hash, and full statutory control evidence.
+    """
+    report = await compliance_service.generate_report(db, transaction_id)
+    if not report:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Ledger record with transaction ID '{transaction_id}' not found for certificate generation.",
+        )
+    html_content = compliance_service.render_html_certificate(report)
+    return HTMLResponse(content=html_content, status_code=status.HTTP_200_OK)
+

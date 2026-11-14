@@ -30,6 +30,11 @@ from backend.schemas.ledger import (
     AuditLedgerRecordResponse,
     AuditLedgerListResponse,
 )
+from backend.schemas.compliance import (
+    RegulatoryControlMapping,
+    ForensicFinding,
+    ComplianceAuditReport,
+)
 
 __all__ = [
     "BaseResponse",
@@ -54,4 +59,7 @@ __all__ = [
     "ProxyChatResult",
     "AuditLedgerRecordResponse",
     "AuditLedgerListResponse",
+    "RegulatoryControlMapping",
+    "ForensicFinding",
+    "ComplianceAuditReport",
 ]

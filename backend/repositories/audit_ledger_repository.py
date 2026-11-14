@@ -35,6 +35,23 @@ class AuditLedgerRepository(BaseRepository[AuditLedger]):
                 {"limit": limit, "error": str(e)},
             )
 
+    async def get_by_target_id(self, target_id: str, limit: int = 10) -> list[AuditLedger]:
+        """Query recent audit records for a specific target agent."""
+        try:
+            stmt = (
+                select(AuditLedger)
+                .where(AuditLedger.target_id == target_id)
+                .order_by(AuditLedger.created_at.desc())
+                .limit(limit)
+            )
+            result = await self.session.execute(stmt)
+            return list(result.scalars().all())
+        except Exception as e:
+            raise DatabaseOperationException(
+                "get_by_target_id on AuditLedger",
+                {"target_id": target_id, "error": str(e)},
+            )
+
     async def record_audit(self, **kwargs) -> AuditLedger:
         """Commit an immutable SHA-256 verified audit transaction block."""
         return await self.create(**kwargs)
