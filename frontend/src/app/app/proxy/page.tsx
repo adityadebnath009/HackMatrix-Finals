@@ -55,6 +55,9 @@ export default function ProxyPage() {
   );
 }
 
+const RENDER_PUBLIC_URL = 'https://hackmatrix-frontend.onrender.com/app/proxy';
+const LAN_FALLBACK_URL = 'http://10.1.34.167:3000/app/proxy';
+
 function ProxyContent() {
   const searchParams = useSearchParams();
   const targetParam = searchParams.get('target');
@@ -66,18 +69,37 @@ function ProxyContent() {
   const [proxyResult, setProxyResult] = useState<ProxyChatResult | null>(null);
   const [history, setHistory] = useState<Array<{ prompt: string; result: ProxyChatResult; timestamp: string }>>([]);
   const [showQrModal, setShowQrModal] = useState(false);
-  const [mobileUrl, setMobileUrl] = useState('http://10.1.34.167:3000/app/proxy');
+  const [mobileUrl, setMobileUrl] = useState(RENDER_PUBLIC_URL);
   const [copiedUrl, setCopiedUrl] = useState(false);
+  const [isEditingUrl, setIsEditingUrl] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('aegisx_mobile_url');
+      if (saved) {
+        setMobileUrl(saved);
+        return;
+      }
+      if (process.env.NEXT_PUBLIC_TUNNEL_URL) {
+        setMobileUrl(process.env.NEXT_PUBLIC_TUNNEL_URL);
+        return;
+      }
       const isLocalhost =
         window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      const lanOrigin = isLocalhost ? 'http://10.1.34.167:3000' : window.location.origin;
-      const defaultUrl = `${lanOrigin}/app/proxy`;
-      setMobileUrl(process.env.NEXT_PUBLIC_TUNNEL_URL || defaultUrl);
+      if (!isLocalhost) {
+        setMobileUrl(`${window.location.origin}/app/proxy`);
+      } else {
+        setMobileUrl(RENDER_PUBLIC_URL);
+      }
     }
   }, []);
+
+  const updateUrl = (url: string) => {
+    setMobileUrl(url);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('aegisx_mobile_url', url);
+    }
+  };
 
   useEffect(() => {
     api.getTargets()
@@ -450,7 +472,39 @@ function ProxyContent() {
                 >
                   {copiedUrl ? <Check className="w-3.5 h-3.5 text-primary-glow" /> : <Copy className="w-3.5 h-3.5" />}
                 </button>
+                <button
+                  onClick={() => setIsEditingUrl(!isEditingUrl)}
+                  className="text-[10px] text-on-variant hover:text-white underline ml-1"
+                >
+                  {isEditingUrl ? 'Done' : 'Change URL'}
+                </button>
               </div>
+
+              {isEditingUrl && (
+                <div className="pt-2 space-y-2">
+                  <div className="flex items-center justify-center gap-2 text-[10px]">
+                    <button
+                      onClick={() => updateUrl(RENDER_PUBLIC_URL)}
+                      className="px-2 py-0.5 rounded border border-primary/40 bg-primary/10 text-primary-glow hover:bg-primary/20"
+                    >
+                      🌐 Render Live
+                    </button>
+                    <button
+                      onClick={() => updateUrl(LAN_FALLBACK_URL)}
+                      className="px-2 py-0.5 rounded border border-outline bg-surface-lowest text-on-variant hover:text-white"
+                    >
+                      💻 Local LAN
+                    </button>
+                  </div>
+                  <input
+                    type="url"
+                    value={mobileUrl}
+                    onChange={(e) => updateUrl(e.target.value)}
+                    placeholder="Paste ngrok or custom URL (e.g. https://abc.ngrok-free.app/app/proxy)"
+                    className="w-full max-w-xs mx-auto block px-3 py-1.5 text-xs font-mono rounded-lg border border-primary bg-surface-lowest text-white placeholder-on-variant/50 focus:outline-none"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="pt-2 border-t border-outline/50 flex justify-center">
