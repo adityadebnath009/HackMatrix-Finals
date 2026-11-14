@@ -95,6 +95,8 @@ async def analyze_threats(req: AnalyzeThreatRequest) -> BaseResponse[ThreatAudit
         ),
         threat_matches=[
             RAGThreatMatch(
+                authority_organization="The MITRE Corporation",
+                source_url="https://atlas.mitre.org/techniques/AML.T0054",
                 technique_id="AML.T0054",
                 technique_name="LLM Jailbreak via Persona & Authority Adoption",
                 owasp_category="OWASP-LLM01: Prompt Injection & System Leakage",
@@ -103,6 +105,8 @@ async def analyze_threats(req: AnalyzeThreatRequest) -> BaseResponse[ThreatAudit
                 mitigation_guidance="Enforce cryptographic XML boundary tagging and deterministic Pydantic schema validation.",
             ),
             RAGThreatMatch(
+                authority_organization="OWASP Foundation",
+                source_url="https://genai.owasp.org/llmrisk/llm02-sensitive-information-disclosure",
                 technique_id="AML.T0048",
                 technique_name="Insecure Output Handling / Sensitive Data Exfiltration",
                 owasp_category="OWASP-LLM02: Sensitive Information Disclosure",

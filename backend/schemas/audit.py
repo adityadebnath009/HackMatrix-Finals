@@ -13,6 +13,14 @@ class ThreatSeverity(str, Enum):
 
 class RAGThreatMatch(BaseModel):
     """Grounding citation retrieved from MITRE ATLAS & OWASP knowledge base."""
+    authority_organization: str = Field(
+        default="The MITRE Corporation & OWASP Foundation",
+        description="Official authoring organization establishing the vulnerability standard"
+    )
+    source_url: str = Field(
+        default="https://atlas.mitre.org/techniques/AML.T0054",
+        description="Canonical URL for public audit verification"
+    )
     technique_id: str = Field(..., description="MITRE ATLAS technique identifier (e.g. 'AML.T0054')")
     technique_name: str = Field(..., description="Technique name (e.g. 'LLM Jailbreak via Persona Adoption')")
     owasp_category: str = Field(..., description="OWASP category (e.g. 'OWASP-LLM01: Prompt Injection')")
