@@ -111,6 +111,7 @@ AEGISX solves this by transitioning AI security from passive reporting to an **a
 
 ---
 
+
 ## 5 Tech stack
 
 ### Frontend
