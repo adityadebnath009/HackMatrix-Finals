@@ -69,7 +69,6 @@ AEGISX solves this by transitioning AI security from passive reporting to an **a
 ## 4 Demo links and a screenshot
 
 - **Live Application URL:** https://hackmatrix-finals.onrender.com
-- **Demo Video Link:** 
 ### Application Screenshots
 
 #### 1. Autonomous Closed-Loop Safety Triad Console (`/app/pipeline`)
