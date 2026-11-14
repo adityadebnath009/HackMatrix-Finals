@@ -35,6 +35,13 @@ from backend.schemas.compliance import (
     ForensicFinding,
     ComplianceAuditReport,
 )
+from backend.schemas.connector import (
+    ConnectorProtocol,
+    ConnectorTestRequest,
+    ConnectorTestResponse,
+    ConnectorRegisterRequest,
+    ExternalRedTeamRequest,
+)
 
 __all__ = [
     "BaseResponse",
@@ -62,4 +69,9 @@ __all__ = [
     "RegulatoryControlMapping",
     "ForensicFinding",
     "ComplianceAuditReport",
+    "ConnectorProtocol",
+    "ConnectorTestRequest",
+    "ConnectorTestResponse",
+    "ConnectorRegisterRequest",
+    "ExternalRedTeamRequest",
 ]

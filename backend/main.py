@@ -19,6 +19,7 @@ from backend.controllers.defense_controller import router as defense_router
 from backend.controllers.proxy_controller import router as proxy_router
 from backend.controllers.ledger_controller import router as ledger_router
 from backend.controllers.pipeline_controller import router as pipeline_router
+from backend.controllers.connector_controller import router as connector_router
 
 settings = get_settings()
 
@@ -49,6 +50,7 @@ app.include_router(defense_router)
 app.include_router(proxy_router)
 app.include_router(ledger_router)
 app.include_router(pipeline_router)
+app.include_router(connector_router)
 
 # Health router at /api/health and /health
 app.include_router(health_router, prefix="/api")

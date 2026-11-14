@@ -1,4 +1,4 @@
-from sqlalchemy import String, Text, JSON
+from sqlalchemy import String, Text, JSON, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 from backend.models.base import Base
 
@@ -13,6 +13,13 @@ class TargetAgentModel(Base):
     description: Mapped[str] = mapped_column(String(500), nullable=False, default="")
     system_prompt: Mapped[str] = mapped_column(Text, nullable=False)
     mock_sensitive_data: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+    
+    # External arbitrary AI connector attributes (P2)
+    is_external: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    endpoint_url: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    protocol: Mapped[str | None] = mapped_column(String(32), nullable=True, default="OPENAI_CHAT")
+    auth_header: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    custom_headers: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
 
     def __repr__(self) -> str:
-        return f"<TargetAgentModel(slug='{self.slug}', name='{self.name}')>"
+        return f"<TargetAgentModel(slug='{self.slug}', name='{self.name}', is_external={self.is_external})>"

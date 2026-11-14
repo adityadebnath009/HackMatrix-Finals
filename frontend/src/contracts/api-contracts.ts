@@ -201,3 +201,43 @@ export interface ComplianceAuditReport {
   legal_disclaimer: string;
 }
 
+// Arbitrary External AI Connectors (P2)
+export type ConnectorProtocol = 'OPENAI_CHAT' | 'RAW_PROMPT' | 'GENERIC_JSON';
+
+export interface ConnectorTestRequest {
+  endpoint_url: string;
+  protocol?: ConnectorProtocol;
+  auth_header?: string;
+  model_name?: string;
+  custom_headers?: Record<string, string>;
+  sample_prompt?: string;
+}
+
+export interface ConnectorTestResponse {
+  status: 'CONNECTED' | 'FAILED';
+  status_code?: number;
+  latency_ms: number;
+  raw_reply?: string;
+  error_message?: string;
+}
+
+export interface ConnectorRegisterRequest {
+  slug: string;
+  name: string;
+  domain?: string;
+  description?: string;
+  endpoint_url: string;
+  protocol?: ConnectorProtocol;
+  auth_header?: string;
+  model_name?: string;
+  custom_headers?: Record<string, string>;
+  timeout_seconds?: number;
+  mock_sensitive_data?: Record<string, string>;
+}
+
+export interface ExternalRedTeamRequest {
+  target_slug: string;
+  intensity?: number;
+}
+
+

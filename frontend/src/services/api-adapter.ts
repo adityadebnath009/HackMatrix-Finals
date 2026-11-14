@@ -12,6 +12,10 @@ import {
   AuditLedgerRecord,
   PipelineExecuteResult,
   ComplianceAuditReport,
+  ConnectorTestRequest,
+  ConnectorTestResponse,
+  ConnectorRegisterRequest,
+  ExternalRedTeamRequest,
 } from '@/contracts/api-contracts';
 import { mockHealthStatus } from '@/mocks/mock-data';
 
@@ -333,6 +337,82 @@ class ApiAdapter {
   // Get printable HTML certificate URL
   public getCertificateUrl(transactionId: string): string {
     return `${this.baseUrl}/ledger/records/${transactionId}/certificate`;
+  }
+
+  // Arbitrary External AI Connectors (P2)
+  public async testConnector(req: ConnectorTestRequest): Promise<ApiResponse<ConnectorTestResponse>> {
+    return this.fetchWithFallback<ConnectorTestResponse>(
+      '/connectors/test',
+      {
+        success: true,
+        message: 'Endpoint reachable',
+        data: {
+          status: 'CONNECTED',
+          status_code: 200,
+          latency_ms: 142,
+          raw_reply: 'Operational status: OK',
+        },
+      },
+      {
+        method: 'POST',
+        body: JSON.stringify(req),
+      }
+    );
+  }
+
+  public async registerConnector(req: ConnectorRegisterRequest): Promise<ApiResponse<TargetAgent>> {
+    return this.fetchWithFallback<TargetAgent>(
+      '/connectors/register',
+      {
+        success: true,
+        message: 'External target registered',
+        data: {
+          id: req.slug,
+          name: req.name,
+          domain: req.domain || 'Custom Enterprise AI',
+          description: req.description || '',
+          system_prompt: 'External customer AI application connected via AEGISX Connector.',
+          mock_sensitive_data: req.mock_sensitive_data || {},
+          created_at: new Date().toISOString(),
+        },
+      },
+      {
+        method: 'POST',
+        body: JSON.stringify(req),
+      }
+    );
+  }
+
+  public async listExternalConnectors(): Promise<ApiResponse<TargetAgent[]>> {
+    return this.fetchWithFallback<TargetAgent[]>(
+      '/connectors/list',
+      {
+        success: true,
+        message: 'Retrieved external connected targets',
+        data: [],
+      }
+    );
+  }
+
+  public async auditExternalTarget(req: ExternalRedTeamRequest): Promise<ApiResponse<AttackSimulationResponse>> {
+    return this.fetchWithFallback<AttackSimulationResponse>(
+      '/connectors/audit',
+      {
+        success: true,
+        message: 'External red-team audit complete',
+        data: {
+          target_id: req.target_slug,
+          timestamp: new Date().toISOString(),
+          total_vectors: req.intensity || 4,
+          successful_breaches: req.intensity || 4,
+          results: [],
+        },
+      },
+      {
+        method: 'POST',
+        body: JSON.stringify(req),
+      }
+    );
   }
 }
 

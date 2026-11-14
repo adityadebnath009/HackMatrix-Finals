@@ -64,3 +64,61 @@ class TargetRepository(BaseRepository[TargetAgentModel]):
             system_prompt=system_prompt,
             mock_sensitive_data=mock_sensitive_data,
         )
+
+    async def list_external_targets(self) -> list[TargetAgentModel]:
+        """Fetch all connected external customer AI applications."""
+        try:
+            stmt = (
+                select(TargetAgentModel)
+                .where(TargetAgentModel.is_external.is_(True))
+                .order_by(TargetAgentModel.created_at.desc())
+            )
+            result = await self.session.execute(stmt)
+            return list(result.scalars().all())
+        except Exception as e:
+            raise DatabaseOperationException(
+                "list_external_targets on TargetAgentModel",
+                {"error": str(e)},
+            )
+
+    async def register_external_target(
+        self,
+        slug: str,
+        name: str,
+        domain: str,
+        description: str,
+        endpoint_url: str,
+        protocol: str = "OPENAI_CHAT",
+        auth_header: str | None = None,
+        custom_headers: dict | None = None,
+        mock_sensitive_data: dict | None = None,
+    ) -> TargetAgentModel:
+        """Register or update an external customer AI endpoint in Neon PostgreSQL."""
+        existing = await self.get_by_slug(slug)
+        if existing:
+            existing.name = name
+            existing.domain = domain
+            existing.description = description
+            existing.is_external = True
+            existing.endpoint_url = endpoint_url
+            existing.protocol = protocol
+            existing.auth_header = auth_header
+            existing.custom_headers = custom_headers or {}
+            existing.mock_sensitive_data = mock_sensitive_data or {}
+            await self.session.flush()
+            await self.session.refresh(existing)
+            return existing
+
+        return await self.create(
+            slug=slug,
+            name=name,
+            domain=domain,
+            description=description,
+            system_prompt="External customer AI application connected via AEGISX Connector.",
+            is_external=True,
+            endpoint_url=endpoint_url,
+            protocol=protocol,
+            auth_header=auth_header,
+            custom_headers=custom_headers or {},
+            mock_sensitive_data=mock_sensitive_data or {},
+        )
