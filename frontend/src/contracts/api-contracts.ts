@@ -31,6 +31,19 @@ export interface TargetAgent {
   system_prompt: string;
   mock_sensitive_data: Record<string, string>;
   created_at: string;
+  is_external?: boolean;
+  endpoint_url?: string;
+  protocol?: string;
+  auth_header?: string;
+  custom_headers?: Record<string, string>;
+}
+
+export interface TargetAgentCreateRequest {
+  name: string;
+  domain: string;
+  description: string;
+  system_prompt: string;
+  mock_sensitive_data?: Record<string, string>;
 }
 
 // Attack Simulation Contracts
