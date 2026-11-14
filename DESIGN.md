@@ -1,49 +1,74 @@
-# Design System Specification: Editorial High-Taste (Anti-Slop)
+# Design System Specification: Editorial Security (Anti-Slop)
 
-> **Governing Skill Reference:** Follows [`design-taste-frontend`](file:///Users/adityadebnath/.gemini/config/skills/design-taste-frontend/SKILL.md) (tasteskill 2.5.0 anti-slop frontend standard). Every screen must adhere to the bar set by `figma.com` and `x.ai`: plain copy, one system, one section per screen, equal edges, real product UI, and zero generic AI slop.
+> **Governing Skill Reference:** Follows [`design-taste-frontend`](file:///Users/adityadebnath/.gemini/config/skills/design-taste-frontend/SKILL.md) (tasteskill 2.5.0 anti-slop frontend standard). Every screen adheres to a calm, precise, evidence-led aesthetic: plain copy, one system, equal edges, real product UI, and zero generic AI slop.
 
-## 1. Core Philosophy
-- **Anti-Slop Standard:** Clean, confident editorial software aesthetic (Figma, Linear, Vigil standard).
-- **One Section Per Screen:** Each viewport (1440x900) contains exactly one idea, one headline, and one visual representation. No crowded multi-card clutter.
-- **The Landing Page is a Story:** Human-centric narrative (Vision -> Problem -> Transformation -> Pillars -> Outcomes & Gateway to `/app`). No cluttered interactive sandboxes on the landing page.
+---
 
-## 2. Color System
-- **Ground / Canvas:** High-contrast editorial tone (Ink Black `#111111` or Bold Signature Tone `#F48B94`).
-- **Cards & Surfaces:** Clean stark white `#FFFFFF` or translucent slate `#0A0E17` with solid 1.5px borders (`#000000` or `#1E293B`).
-- **Accents:** Single high-contrast accent. No rainbow alerts.
-- **Text:** Pitch black `#111111` on light ground, or pure white `#FFFFFF` on dark ground. Muted metadata `#64748B`.
+## 1. Design Direction
 
-## 3. Typography & Copywriting
-- **Headings:** Bold Swiss / Geometric Sans (Inter / Geist / SF Pro Display), 48px to 64px, tight letter-spacing (-0.03em).
-- **Manifesto Voice:** Short, provocative statements ("The AI Is A Witness, Not The Judge", "An Opinion Isn't Evidence").
-- **No Walls of Text:** Replace 3-sentence descriptions with data pills, comparison tags, and live meters.
-- **Labels & Tags:** Monospace uppercase (`font-mono text-xs uppercase tracking-wider`) with bracket framing (`[report.json]`, `[01/03]`).
+**Editorial security, not cyberpunk.**  
+The page uses left-aligned messaging, thin structural rules, muted status colours, and a static proof-flow visual. The feeling should be calm, precise, and evidence-led.
 
-## 4. Visual Elements & Layout
-- **Equal Margins:** Strict left and right grid alignment with generous whitespace.
-- **Hero Metric:** Giant before/after metric display (e.g., "85.5% -> 9.7%").
-- **Dithered / Retro Accents:** 1-bit pixelated halftones and wave patterns for technical schematics.
-- **Interactive Sandboxes:** Single clean input/slider with immediate visual response.
-- **Progressive Disclosure:** Headline verdict visible upfront; deep technical logs collapsed behind an expandable drawer.
+* **Hero:** Asymmetrical two-column layout:
+  * **Left:** Core product statement, humanized value proposition, and primary action.
+  * **Right:** "Proof Path" visual demonstration.
+* **Navbar:** Full-width flat bar with clear section anchors and a single strong action.
+* **Cards & Panels:** Flat surfaces with 1px outlines (`outline`); zero glassmorphism, zero blur overlays, and zero neon glow.
+* **Motion:** Restrained and purposeful. Exactly one proof-flow animation slot inside the Proof Path panel, respecting reduced-motion preferences.
+* **Workspace Separation:** The landing page (`/`) is 100% storytelling, proof, and navigation. The interactive working tool lives on a dedicated route (`/app`). Never embed cluttered interactive sandboxes into the marketing flow.
 
-## 5. Landing Page Psychology & UX Standards (Growth.Design Principles)
-- **Clear Purpose First:** One benefit-oriented headline per section answering *"What do I get out of this and why should I care?"*. Avoid elevated cognitive load or mixed signals.
-- **One CTA Per Screen:** Exactly one clear, high-contrast action button per viewport fold.
-- **Strict 2-Font Limit:** Swiss/Geometric Sans for headlines and copy (`Inter`/`Geist`); Monospace (`JetBrains Mono`) for bracket tags and metrics.
-- **The Squint Test:** Visual hierarchy must ensure the single focal element and CTA dominate the viewport even when blurred.
-- **The Spark Effect (Zero Wrongful Delegation):** The first action must require lowest possible commitment (1-click navigation into workspace; zero forced logins). Making decisions easier for people is our job.
-- **Architecture of Separation:** The landing page (`/`) is 100% storytelling, proof, and navigation. The actual product tool lives on its dedicated route (`/app` or `/workspace`). Never embed cluttered interactive sandboxes into the landing page flow.
+---
 
-## 6. Conversion Architecture (UX Planet "Landing Pages That Sell" Standard)
-- **Micro-AIDA in Every Viewport:** Every individual screen must carry its own Attention (pattern interrupt), Interest (benefit), Desire (visual proof), and Action (low-friction forward momentum). Never defer action only to the bottom footer.
-- **Pattern Interrupts:** Open each section with an unconventional, honest assertion that breaks standard corporate cliché.
-- **Organic Objection Handling:** Dissolve doubts in context. Answer privacy, accuracy, and latency concerns immediately alongside the feature, not hidden in a distant FAQ.
-- **Psychological Ownership:** Display the real product UI populated with lifelike, high-stakes data so the user mentally adopts the product immediately.
-- **Narrative Momentum:** Maintain continuous visual and intellectual curiosity pulling the reader through the 5-screen narrative.
+## 2. Colour System
 
-## 7. Demo Chromatics & Instant Proof (VIGIL Standard)
-- **3-State Emotional Chromatics:** 
-  - *Breach State:* Crimson Red (`#EF4444`) with raw monospaced exploit telemetry and urgent high-risk indicators (`94% CRITICAL`).
-  - *Synthesis State:* Technical Amber (`#F59E0B`) with subtle laser `BorderBeam` and auto-generated validation code drawer.
-  - *Shielded State:* Emerald Green (`#10B981`) with 0% risk count-down, low-latency badge (`34ms`), and cryptographic signature.
-- **The QR-Code Proof Engine:** Prominent, crisp SVG QR code displayed in the workspace corner pointing to the public ngrok tunnel, allowing judges to test custom adversarial prompts on their personal smartphones with zero login friction.
+| Role | Token | Hex | Use |
+|:---|:---|---:|:---|
+| **Main canvas** | `background` | `#111916` | Page background |
+| **Deep surface** | `surface-lowest` | `#0C1210` | Nested panels, code blocks |
+| **Standard surface** | `surface-low` | `#17211D` | Cards, Proof Path container |
+| **Raised surface** | `surface-high` | `#304139` | Hover or selected states |
+| **Structural line** | `outline` | `#6F8176` | Borders, dividers, 1px rules |
+| **Main text** | `on-surface` | `#EDF0E9` | Headings, primary content |
+| **Secondary text** | `on-variant` | `#B6C0B9` | Supporting body copy, metadata labels |
+| **Primary / success** | `primary` | `#86A593` | CTAs, confirmed states, success badges |
+| **Primary highlight** | `primary-glow` | `#B8D1C0` | Hover states, italic motto word accent |
+| **Review / synthesis** | `secondary` | `#B69A72` | Middle Proof Path state, in-progress tags |
+| **Risk** | `error` | `#B55D4C` | Threat signatures, failure states, exploits |
+
+### Strict Chromatic Rules
+* **Rust (`#B55D4C`)**: Exclusively reserved for risk, exploits, and breach conditions.
+* **Muted Gold (`#B69A72`)**: Exclusively reserved for review, compilation, or in-progress states.
+* **Sage (`#86A593` / `#B8D1C0`)**: Reserved for successful deflection, primary actions, and confirmed verification.
+* **Forbidden:** No cyan, electric emerald, purple, neon borders, or multi-colored gradients.
+
+---
+
+## 3. Typography
+
+* **Main Product Voice:** System sans-serif (`-apple-system`, `BlinkMacSystemFont`, `Inter`, `Segoe UI`), bold and tightly tracked (`tracking-[-0.055em]`).
+* **Emphasis:** Serif italic, strictly reserved for exactly one meaningful phrase per screen—currently *“Build the boundary.”*
+* **Technical Metadata:** System monospace (`JetBrains Mono`, `ui-monospace`, `Menlo`), uppercase, small (`text-[10px]` or `text-xs`), with generous letter spacing (`tracking-[0.18em]` to `tracking-[0.2em]`).
+* **Discipline:** Strictly limit the hero to these three typography roles. Do not introduce additional display fonts or novelty typefaces.
+
+---
+
+## 4. Component Rules
+
+* **Primary Buttons:** Sage fill (`bg-primary`), dark ink text (`text-[#102019]`), soft pill radius (`rounded-full` or `rounded-lg`) strictly for the single primary action.
+* **Secondary Actions:** Text link with a thin underline or bottom border (`border-b border-outline pb-1 hover:border-primary hover:text-primary-glow`); never a second competing filled button.
+* **Panels & Bento Units:** `bg-surface-low`, `border border-outline`, square-to-subtle radius. The Proof Path uses a quiet offset shadow (`shadow-[12px_12px_0_0_rgba(134,165,147,0.14)]`) instead of diffuse neon glow.
+* **Hover States:** Subtle vertical shift (-1px to -2px) or a slightly strengthened border. No 3D card tilts, no neon pulsing, and no chromatic cycling.
+* **Animations:** Keep the future “Proof Path” animation contained within its panel. It should communicate the deterministic sequence (*Attack ➔ Constraint ➔ Proof*) with zero layout shift and full `prefers-reduced-motion` compliance.
+
+---
+
+## 5. Implementation Status & Consistency Guide
+
+* **Token Configuration:** Centrally defined in [frontend/tailwind.config.ts](file:///Users/adityadebnath/Projects/HackMatrix/frontend/tailwind.config.ts) and [frontend/src/app/globals.css](file:///Users/adityadebnath/Projects/HackMatrix/frontend/src/app/globals.css).
+* **Harmonization Checklist:**
+  - [x] **Hero (`Hero.tsx`):** Fully aligned with editorial two-column layout and the 3-step Proof Path.
+  - [x] **Navbar (`Navbar.tsx`):** Flat border bar with human anchors (`Why now`, `Method`, `Evidence`, `Questions`).
+  - [x] **Compliance (`Compliance.tsx`):** Clean 4-card statutory matrix (EU AI Act, NIST AI RMF, ISO 42001, MITRE ATLAS) using sage and muted gold tokens.
+  - [x] **FAQ (`Faq.tsx`):** Flat accordion styling without neon glow.
+  - [x] **CTA & Footer (`Cta.tsx`, `Footer.tsx`):** Unified under the muted obsidian and sage palette.
+  - [x] **Problems & Safety Triad:** Replace legacy utilities (`text-emerald-400`, `text-cyan-400`) with semantic palette tokens (`error`, `secondary`, `primary`, `on-variant`).

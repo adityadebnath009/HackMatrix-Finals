@@ -5,42 +5,42 @@ import { ShieldX, FileWarning, GitFork } from 'lucide-react';
 const problems = [
   {
     icon: ShieldX,
-    iconColor: 'text-red-400',
-    iconBg: 'bg-red-500/10 border-red-500/20',
+    iconColor: 'text-error',
+    iconBg: 'bg-error/10 border-error/30',
     badge: 'BYPASS < 500MS',
-    badgeStyle: 'text-red-400 bg-red-950/40 border-red-500/30',
+    badgeStyle: 'text-error bg-error/10 border-error/30',
     title: 'Fragile System Prompts',
     description:
       'Natural language rules collapse under adversarial authority framing, hypothetical roleplay, and delimiter escapes in under 500ms.',
     traceTitle: 'PROMPT INJECTION TRACE',
     traceBody: '[IGNORE_PREVIOUS_DIRECTIVES: OVERRIDE] => System accepted prompt root privilege.',
-    traceColor: 'text-red-400',
+    traceColor: 'text-error',
   },
   {
     icon: FileWarning,
-    iconColor: 'text-cyan-400',
-    iconBg: 'bg-cyan-500/10 border-cyan-500/20',
+    iconColor: 'text-secondary',
+    iconBg: 'bg-secondary/10 border-secondary/30',
     badge: 'ZERO ENFORCEMENT',
-    badgeStyle: 'text-cyan-400 bg-cyan-950/40 border-cyan-500/30',
+    badgeStyle: 'text-secondary bg-secondary/10 border-secondary/30',
     title: 'Passive Vulnerability Scanners',
     description:
       'Legacy security tools dump 50-page vulnerability PDFs but leave live runtime endpoints completely unprotected against dynamic exploitation.',
     traceTitle: 'STALE AUDIT REPORT',
     traceBody: 'Report Age: 14 Days Old | 0 Active Interceptors',
-    traceColor: 'text-cyan-400',
+    traceColor: 'text-secondary',
   },
   {
     icon: GitFork,
-    iconColor: 'text-amber-400',
-    iconBg: 'bg-amber-500/10 border-amber-500/20',
+    iconColor: 'text-secondary',
+    iconBg: 'bg-secondary/10 border-secondary/30',
     badge: 'DRIFT RUNTIME FAIL',
-    badgeStyle: 'text-amber-400 bg-amber-950/40 border-amber-500/30',
+    badgeStyle: 'text-secondary bg-secondary/10 border-secondary/30',
     title: 'Brittle Hand-Crafted YAML',
     description:
       'Manual guardrail rules break with every model release and fail to generalize against novel multi-turn zero-day semantic prompts.',
     traceTitle: 'SYNTAX DRIFT EXCEPTION',
     traceBody: 'GuardrailSyntaxError: Rule #412 unhandled token pattern in vLLM stream.',
-    traceColor: 'text-amber-400',
+    traceColor: 'text-secondary',
   },
 ];
 
@@ -49,8 +49,8 @@ export default function Problems() {
     <section id="problems" className="py-24 px-4 sm:px-6 max-w-7xl mx-auto scroll-mt-24">
       {/* Section Tag */}
       <div className="text-center mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-surface-highest bg-surface-low/80 backdrop-blur text-xs font-mono text-emerald-400 mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-outline bg-surface-low text-xs font-mono text-primary-glow mb-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
           <span>[ SYSTEM VULNERABILITY AUDIT ]</span>
         </div>
 
@@ -58,7 +58,7 @@ export default function Problems() {
           Why Today&apos;s Enterprise AI Guardrails Fail in Production
         </h2>
 
-        <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="text-base sm:text-lg text-on-variant max-w-2xl mx-auto font-light leading-relaxed">
           Static safety guardrails and legacy scanners leave agentic workflows exposed to novel adversarial jailbreaks.
         </p>
       </div>
@@ -68,7 +68,7 @@ export default function Problems() {
         {problems.map((p) => (
           <div
             key={p.title}
-            className="p-6 rounded-2xl border border-surface-highest/60 bg-surface-low/60 hover:bg-surface-low/90 backdrop-blur transition-all duration-300 flex flex-col justify-between"
+            className="p-6 rounded-2xl border border-outline bg-surface-low hover:border-outline/90 transition-all duration-300 flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-5">
@@ -85,14 +85,14 @@ export default function Problems() {
               </div>
 
               <h3 className="text-xl font-bold text-white mb-2.5">{p.title}</h3>
-              <p className="text-sm text-slate-300 font-light leading-relaxed mb-6">
+              <p className="text-sm text-on-variant font-light leading-relaxed mb-6">
                 {p.description}
               </p>
             </div>
 
             {/* Code / Trace Box */}
-            <div className="p-3.5 rounded-xl bg-surface-lowest border border-surface-highest/50 font-mono text-xs">
-              <span className="text-[10px] uppercase tracking-wider text-slate-400 block mb-1">
+            <div className="p-3.5 rounded-xl bg-surface-lowest border border-outline/60 font-mono text-xs">
+              <span className="text-[10px] uppercase tracking-wider text-on-variant block mb-1">
                 {p.traceTitle}
               </span>
               <p className={`${p.traceColor} text-[11px] leading-snug break-all`}>

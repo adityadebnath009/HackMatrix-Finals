@@ -7,11 +7,8 @@ export default function Cta() {
   return (
     <section className="py-20 px-4 sm:px-6 max-w-5xl mx-auto">
       <div className="p-8 sm:p-14 rounded-3xl border border-surface-highest/80 bg-gradient-to-b from-surface-low to-surface-lowest shadow-2xl backdrop-blur-xl text-center relative overflow-hidden">
-        {/* Subtle background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-48 bg-emerald-500/10 blur-[90px] -z-10 rounded-full pointer-events-none" />
-
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-surface-highest bg-surface-low/80 backdrop-blur text-xs font-mono text-emerald-400 mb-6">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-outline bg-surface-low text-xs font-mono text-primary-glow mb-6">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
           <span>ENTERPRISE SEC-OPS READINESS</span>
         </div>
 
@@ -26,7 +23,7 @@ export default function Cta() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/app"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold shadow-[0_0_24px_rgba(16,185,129,0.4)] hover:shadow-[0_0_36px_rgba(16,185,129,0.6)] transition-all duration-200"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-primary hover:bg-primary-glow text-surface-lowest font-bold transition-all duration-200"
           >
             <span>Enter Security Workspace</span>
             <ArrowRight className="w-4 h-4" />

@@ -10,7 +10,7 @@ export default function Footer() {
         {/* Left: Brand & Copyright */}
         <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <div className="w-6 h-6 rounded-md bg-primary/10 border border-primary/30 flex items-center justify-center text-primary-glow">
               <Shield className="w-3.5 h-3.5" />
             </div>
             <span className="font-bold text-white tracking-wider">AEGISX</span>
@@ -38,8 +38,8 @@ export default function Footer() {
             Audit Logs
           </Link>
           <span className="text-surface-highest">•</span>
-          <span className="text-emerald-400 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse" />
+          <span className="text-primary-glow flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary inline-block" />
             Telemetry: 100% Operational
           </span>
         </div>

@@ -39,8 +39,8 @@ export default function Compliance() {
     <section id="regulatory-compliance" className="py-24 px-4 sm:px-6 max-w-7xl mx-auto scroll-mt-24">
       {/* Section Tag */}
       <div className="text-center mb-16">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-surface-highest bg-surface-low/80 backdrop-blur text-xs font-mono text-emerald-400 mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-outline bg-surface-low text-xs font-mono text-primary-glow mb-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
           <span>[ STATUTORY GOVERNANCE &amp; ASSURANCE ]</span>
         </div>
 
@@ -58,14 +58,14 @@ export default function Compliance() {
         {frameworks.map((f) => (
           <div
             key={f.title}
-            className="p-6 rounded-2xl border border-surface-highest/60 bg-surface-low/50 hover:bg-surface-low/80 backdrop-blur hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between"
+            className="p-6 rounded-2xl border border-surface-highest/60 bg-surface-low/50 hover:bg-surface-low/80 hover:border-primary/60 transition-all duration-300 flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[10px] font-mono font-bold tracking-widest text-emerald-400 uppercase">
+                <span className="text-[10px] font-mono font-bold tracking-widest text-primary-glow uppercase">
                   {f.category}
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-primary/10 text-primary-glow border border-primary/30">
                   {f.highlight}
                 </span>
               </div>
@@ -77,7 +77,7 @@ export default function Compliance() {
             </div>
 
             <div className="flex items-center gap-1.5 pt-5 mt-4 border-t border-surface-highest/40 text-xs font-mono text-slate-400">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-primary-glow" />
               <span>Verified Audit Mapping</span>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function Compliance() {
       {/* In-Context Reassurance Callout */}
       <div className="mt-10 p-5 rounded-xl border border-surface-highest/50 bg-surface-low/40 backdrop-blur flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0">
+          <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center text-primary-glow flex-shrink-0">
             <ShieldCheck className="w-4 h-4" />
           </div>
           <div>
@@ -102,7 +102,7 @@ export default function Compliance() {
 
         <Link
           href="/app"
-          className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 hover:text-emerald-300 px-4 py-2 rounded-lg border border-emerald-500/30 hover:bg-emerald-500/10 transition-all flex-shrink-0"
+          className="inline-flex items-center gap-2 text-xs font-mono text-primary-glow hover:text-white px-4 py-2 rounded-lg border border-primary/40 hover:bg-primary/10 transition-all flex-shrink-0"
         >
           <span>Open Audit Ledger in Workspace</span>
           <ArrowRight className="w-3.5 h-3.5" />

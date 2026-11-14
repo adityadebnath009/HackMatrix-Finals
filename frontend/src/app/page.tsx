@@ -11,7 +11,7 @@ import Footer from '@/components/landing/Footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-on-surface cyber-grid selection:bg-emerald-500 selection:text-slate-950 relative">
+    <div className="min-h-screen bg-background text-on-surface selection:bg-primary selection:text-surface-lowest relative">
       <Navbar />
       <main>
         <Hero />

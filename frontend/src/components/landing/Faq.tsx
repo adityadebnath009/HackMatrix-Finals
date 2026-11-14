@@ -32,8 +32,8 @@ export default function Faq() {
     <section id="faq" className="py-24 px-4 sm:px-6 max-w-4xl mx-auto scroll-mt-24">
       {/* Section Tag */}
       <div className="text-center mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-surface-highest bg-surface-low/80 backdrop-blur text-xs font-mono text-emerald-400 mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-outline bg-surface-low text-xs font-mono text-primary-glow mb-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
           <span>[ KNOWLEDGE BASE &amp; RUNTIME SPECS ]</span>
         </div>
 
@@ -57,17 +57,17 @@ export default function Faq() {
             >
               <button
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
-                className="w-full flex items-center justify-between p-5 text-left font-medium text-white hover:text-emerald-400 transition-colors"
+                className="w-full flex items-center justify-between p-5 text-left font-medium text-white hover:text-primary-glow transition-colors"
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-xs font-mono text-emerald-400 font-semibold">
+                  <span className="text-xs font-mono text-primary-glow font-semibold">
                     {faq.number}
                   </span>
                   <span className="text-base sm:text-lg font-medium">{faq.question}</span>
                 </div>
                 <ChevronDown
                   className={`w-5 h-5 text-slate-400 transition-transform duration-200 flex-shrink-0 ml-4 ${
-                    isOpen ? 'rotate-180 text-emerald-400' : ''
+                    isOpen ? 'rotate-180 text-primary-glow' : ''
                   }`}
                 />
               </button>

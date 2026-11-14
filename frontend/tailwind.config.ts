@@ -10,36 +10,36 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#051424",
+        background: "#111916",
         surface: {
-          DEFAULT: "#051424",
-          lowest: "#010f1f",
-          low: "#0d1c2d",
-          base: "#122131",
-          high: "#1c2b3c",
-          highest: "#273647",
+          DEFAULT: "#111916",
+          lowest: "#0c1210",
+          low: "#17211d",
+          base: "#23312b",
+          high: "#304139",
+          highest: "#46584e",
         },
         primary: {
-          DEFAULT: "#10b981",
-          glow: "#4edea3",
-          dark: "#00422b",
+          DEFAULT: "#86a593",
+          glow: "#b8d1c0",
+          dark: "#405b4d",
         },
         secondary: {
-          DEFAULT: "#06b6d4",
-          bright: "#4cd7f6",
+          DEFAULT: "#b69a72",
+          bright: "#dbc49f",
         },
         error: {
-          DEFAULT: "#ef4444",
-          dim: "#93000a",
-          bright: "#ffb4ab",
+          DEFAULT: "#b55d4c",
+          dim: "#61312a",
+          bright: "#e2a397",
         },
         outline: {
-          DEFAULT: "#86948a",
-          variant: "#3c4a42",
+          DEFAULT: "#6f8176",
+          variant: "#3e4e45",
         },
         on: {
-          surface: "#d4e4fa",
-          variant: "#94a3b8",
+          surface: "#edf0e9",
+          variant: "#b6c0b9",
         },
       },
       fontFamily: {
