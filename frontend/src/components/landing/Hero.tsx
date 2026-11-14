@@ -75,11 +75,11 @@ export default function Hero() {
         </Link>
 
         <a
-          href="#regulatory-compliance"
+          href="#safety-triad"
           className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border border-surface-highest hover:border-surface-highest/80 bg-surface-low/60 hover:bg-surface-low text-slate-300 hover:text-white font-medium transition-all"
         >
-          <Lock className="w-4 h-4 text-emerald-400" />
-          <span>Inspect Compliance Certificate</span>
+          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <span>Explore The Architecture</span>
         </a>
       </motion.div>
 

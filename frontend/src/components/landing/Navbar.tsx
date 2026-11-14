@@ -51,13 +51,13 @@ export default function Navbar() {
 
         {/* Right: Actions */}
         <div className="flex items-center gap-3">
-          <a
-            href="#regulatory-compliance"
+          <Link
+            href="/app"
             className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-slate-300 hover:text-white px-3 py-1.5 rounded-lg border border-surface-highest hover:bg-surface-high/50 transition-all"
           >
             <Lock className="w-3.5 h-3.5 text-secondary" />
-            <span>Audit Ledger</span>
-          </a>
+            <span>Console</span>
+          </Link>
 
           <Link
             href="/app"
