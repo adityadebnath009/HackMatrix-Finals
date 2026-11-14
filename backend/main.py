@@ -13,12 +13,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.config.settings import get_settings
 from backend.exceptions.handlers import register_exception_handlers
 from backend.controllers.health_controller import router as health_router
+from backend.controllers.target_controller import router as target_router
+from backend.controllers.audit_controller import router as audit_router
+from backend.controllers.defense_controller import router as defense_router
+from backend.controllers.proxy_controller import router as proxy_router
+from backend.controllers.ledger_controller import router as ledger_router
+from backend.controllers.pipeline_controller import router as pipeline_router
 
 settings = get_settings()
 
 app = FastAPI(
-    title=settings.APP_NAME,
-    description="CSR-Architected FastAPI Service for HackMatrix Finals",
+    title="AEGISX Security Platform API",
+    description="Autonomous AI Red-Teamer, RAG Threat Intel & Real-Time Defense Shield API",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
@@ -36,9 +42,17 @@ app.add_middleware(
 # Register domain-specific custom exception handlers
 register_exception_handlers(app)
 
-# Include API Controllers
+# Include API Controllers (all /api/v1 prefix built into routers)
+app.include_router(target_router)
+app.include_router(audit_router)
+app.include_router(defense_router)
+app.include_router(proxy_router)
+app.include_router(ledger_router)
+app.include_router(pipeline_router)
+
+# Health router at /api/health and /health
 app.include_router(health_router, prefix="/api")
-app.include_router(health_router)  # root /health convenience
+app.include_router(health_router)
 
 
 @app.get("/")
