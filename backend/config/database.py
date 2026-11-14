@@ -35,8 +35,8 @@ def format_neon_async_url(raw_url: str) -> str:
     ))
 
 
-# Choose pooled connection string if available, otherwise standard DATABASE_URL
-target_db_url = settings.DATABASE_URL_POOLED or settings.DATABASE_URL
+# Prefer direct database URL for asyncpg prepared statements, fallback to pooled
+target_db_url = settings.DATABASE_URL or settings.DATABASE_URL_POOLED
 async_db_url = format_neon_async_url(target_db_url)
 
 engine = None
@@ -45,10 +45,11 @@ AsyncSessionLocal = None
 if async_db_url:
     engine = create_async_engine(
         async_db_url,
-        echo=settings.DEBUG,
+        echo=False,
         pool_pre_ping=True,
         pool_size=10,
-        max_overflow=20
+        max_overflow=20,
+        connect_args={"statement_cache_size": 0},
     )
     AsyncSessionLocal = async_sessionmaker(
         bind=engine,
@@ -73,3 +74,7 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
             raise
         finally:
             await session.close()
+
+
+# Common alias for FastAPI route dependencies
+get_db = get_db_session

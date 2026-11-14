@@ -1,77 +1,85 @@
-from datetime import datetime
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.ext.asyncio import AsyncSession
+from backend.config.database import get_db
 from backend.schemas.common import BaseResponse
 from backend.schemas.ledger import (
     AuditLedgerRecordResponse,
     AuditLedgerListResponse,
 )
+from backend.repositories.audit_ledger_repository import AuditLedgerRepository
 
 router = APIRouter(prefix="/api/v1/ledger", tags=["Cryptographic Audit Ledger"])
 
-# Pre-seeded sample ledger records matching Neon PostgreSQL audit table structure
-_MOCK_LEDGER_RECORDS: list[AuditLedgerRecordResponse] = [
-    AuditLedgerRecordResponse(
-        id=1,
-        transaction_id="TX-7F2A9B01",
-        target_id="apex-wealth",
-        target_name="Apex Wealth Banking Assistant",
-        risk_score=94,
-        threat_severity="CRITICAL",
-        mitre_technique_id="AML.T0054",
-        owasp_category="OWASP-LLM01",
-        rag_similarity_score=0.984,
-        attack_vectors_count=4,
-        deflected_count=4,
-        deflection_rate=100.0,
-        generated_schema_code="class ApexShieldedInput(BaseModel): ...",
-        generated_regex_rule=r"(?i)(system\s+override|---END)",
-        audit_hash="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        created_at=datetime.utcnow(),
-    ),
-    AuditLedgerRecordResponse(
-        id=2,
-        transaction_id="TX-3B119C40",
-        target_id="meditrust-triage",
-        target_name="MediTrust Clinical Triage Bot",
-        risk_score=88,
-        threat_severity="CRITICAL",
-        mitre_technique_id="AML.T0048",
-        owasp_category="OWASP-LLM02",
-        rag_similarity_score=0.962,
-        attack_vectors_count=4,
-        deflected_count=4,
-        deflection_rate=100.0,
-        generated_schema_code="class MediTrustInput(BaseModel): ...",
-        generated_regex_rule=r"(?i)(hipaa_token|patient_id)",
-        audit_hash="a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0",
-        created_at=datetime.utcnow(),
-    ),
-]
-
 
 @router.get("/records", response_model=BaseResponse[AuditLedgerListResponse])
-async def get_ledger_records() -> BaseResponse[AuditLedgerListResponse]:
+async def get_ledger_records(db: AsyncSession = Depends(get_db)) -> BaseResponse[AuditLedgerListResponse]:
     """Retrieve immutable audit ledger records for enterprise compliance review."""
+    repo = AuditLedgerRepository(db)
+    db_records = await repo.get_recent_audits(limit=50)
+
+    records = [
+        AuditLedgerRecordResponse(
+            id=r.id,
+            transaction_id=r.transaction_id,
+            target_id=r.target_id,
+            target_name=r.target_name,
+            risk_score=r.risk_score,
+            threat_severity=r.threat_severity,
+            mitre_technique_id=r.mitre_technique_id,
+            owasp_category=r.owasp_category,
+            rag_similarity_score=r.rag_similarity_score,
+            attack_vectors_count=r.attack_vectors_count,
+            deflected_count=r.deflected_count,
+            deflection_rate=r.deflection_rate,
+            generated_schema_code=r.generated_schema_code,
+            generated_regex_rule=r.generated_regex_rule,
+            audit_hash=r.audit_hash,
+            created_at=r.created_at,
+        )
+        for r in db_records
+    ]
+
     return BaseResponse(
         success=True,
         message="Audit ledger records retrieved successfully.",
         data=AuditLedgerListResponse(
-            total_records=len(_MOCK_LEDGER_RECORDS),
-            records=_MOCK_LEDGER_RECORDS,
+            total_records=len(records),
+            records=records,
         ),
     )
 
 
 @router.get("/records/{transaction_id}", response_model=BaseResponse[AuditLedgerRecordResponse])
-async def get_ledger_record(transaction_id: str) -> BaseResponse[AuditLedgerRecordResponse]:
+async def get_ledger_record(
+    transaction_id: str,
+    db: AsyncSession = Depends(get_db),
+) -> BaseResponse[AuditLedgerRecordResponse]:
     """Fetch individual cryptographic audit block by transaction ID."""
-    for rec in _MOCK_LEDGER_RECORDS:
-        if rec.transaction_id == transaction_id:
-            return BaseResponse(
-                success=True,
-                message="Audit ledger block retrieved.",
-                data=rec,
-            )
+    repo = AuditLedgerRepository(db)
+    rec = await repo.get_by_transaction_id(transaction_id)
+    if rec:
+        return BaseResponse(
+            success=True,
+            message="Audit ledger block retrieved.",
+            data=AuditLedgerRecordResponse(
+                id=rec.id,
+                transaction_id=rec.transaction_id,
+                target_id=rec.target_id,
+                target_name=rec.target_name,
+                risk_score=rec.risk_score,
+                threat_severity=rec.threat_severity,
+                mitre_technique_id=rec.mitre_technique_id,
+                owasp_category=rec.owasp_category,
+                rag_similarity_score=rec.rag_similarity_score,
+                attack_vectors_count=rec.attack_vectors_count,
+                deflected_count=rec.deflected_count,
+                deflection_rate=rec.deflection_rate,
+                generated_schema_code=rec.generated_schema_code,
+                generated_regex_rule=rec.generated_regex_rule,
+                audit_hash=rec.audit_hash,
+                created_at=rec.created_at,
+            ),
+        )
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
         detail=f"Audit block with transaction ID '{transaction_id}' not found.",

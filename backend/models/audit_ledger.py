@@ -20,7 +20,7 @@ class AuditLedger(Base):
     deflection_rate: Mapped[float] = mapped_column(Float, nullable=False, default=100.0)
     generated_schema_code: Mapped[str] = mapped_column(Text, nullable=False)
     generated_regex_rule: Mapped[str] = mapped_column(Text, nullable=False)
-    audit_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True, nullable=False)
+    audit_hash: Mapped[str] = mapped_column(String(128), unique=True, index=True, nullable=False)
 
     def __repr__(self) -> str:
         return f"<AuditLedger(tx='{self.transaction_id}', target='{self.target_name}', deflection={self.deflection_rate}%)>"
