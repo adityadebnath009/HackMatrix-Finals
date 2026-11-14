@@ -5,20 +5,41 @@ import { Shield, Smartphone, QrCode, Copy, Check, ExternalLink } from 'lucide-re
 import Link from 'next/link';
 import { QRCodeSVG } from 'qrcode.react';
 
+const RENDER_PUBLIC_URL = 'https://hackmatrix-frontend.onrender.com/app/proxy';
+const LAN_FALLBACK_URL = 'http://10.1.34.167:3000/app/proxy';
+
 export default function Footer() {
-  const [mobileUrl, setMobileUrl] = useState('http://10.1.34.167:3000/app/proxy');
+  const [mobileUrl, setMobileUrl] = useState(RENDER_PUBLIC_URL);
   const [copied, setCopied] = useState(false);
   const [isEditingUrl, setIsEditingUrl] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('aegisx_mobile_url');
+      if (saved) {
+        setMobileUrl(saved);
+        return;
+      }
+      if (process.env.NEXT_PUBLIC_TUNNEL_URL) {
+        setMobileUrl(process.env.NEXT_PUBLIC_TUNNEL_URL);
+        return;
+      }
       const isLocalhost =
         window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      const lanOrigin = isLocalhost ? 'http://10.1.34.167:3000' : window.location.origin;
-      const defaultUrl = `${lanOrigin}/app/proxy`;
-      setMobileUrl(process.env.NEXT_PUBLIC_TUNNEL_URL || defaultUrl);
+      if (!isLocalhost) {
+        setMobileUrl(`${window.location.origin}/app/proxy`);
+      } else {
+        setMobileUrl(RENDER_PUBLIC_URL);
+      }
     }
   }, []);
+
+  const updateUrl = (url: string) => {
+    setMobileUrl(url);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('aegisx_mobile_url', url);
+    }
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(mobileUrl);
@@ -68,11 +89,25 @@ export default function Footer() {
             </div>
 
             {isEditingUrl && (
-              <div className="pt-2">
+              <div className="pt-2 space-y-2">
+                <div className="flex flex-wrap gap-1.5 text-[10px]">
+                  <button
+                    onClick={() => updateUrl(RENDER_PUBLIC_URL)}
+                    className="px-2 py-0.5 rounded border border-primary/40 bg-primary/10 text-primary-glow hover:bg-primary/20"
+                  >
+                    🌐 Render Live
+                  </button>
+                  <button
+                    onClick={() => updateUrl(LAN_FALLBACK_URL)}
+                    className="px-2 py-0.5 rounded border border-outline bg-surface-lowest text-on-variant hover:text-white"
+                  >
+                    💻 Local LAN (10.1.34.167)
+                  </button>
+                </div>
                 <input
                   type="url"
                   value={mobileUrl}
-                  onChange={(e) => setMobileUrl(e.target.value)}
+                  onChange={(e) => updateUrl(e.target.value)}
                   placeholder="Paste ngrok tunnel URL (e.g. https://abc.ngrok-free.app/app/proxy)"
                   className="w-full max-w-md px-3 py-1.5 text-xs font-mono rounded-lg border border-primary bg-surface-lowest text-white placeholder-on-variant/50 focus:outline-none"
                 />
