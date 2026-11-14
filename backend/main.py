@@ -52,7 +52,8 @@ app.include_router(ledger_router)
 app.include_router(pipeline_router)
 app.include_router(connector_router)
 
-# Health router at /api/health and /health
+# Health router at /api/v1/health, /api/health, and /health
+app.include_router(health_router, prefix="/api/v1")
 app.include_router(health_router, prefix="/api")
 app.include_router(health_router)
 

@@ -1,21 +1,30 @@
-import type { Metadata } from 'next';
-import AppSidebar from '@/components/app/AppSidebar';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'AEGISX // Security Console',
-  description: 'Closed-loop autonomous AI safety and runtime defense console.',
-};
+import { useState } from 'react';
+import AppSidebar from '@/components/app/AppSidebar';
+import AppHeader from '@/components/app/AppHeader';
 
 export default function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="flex min-h-screen bg-background text-on-surface antialiased">
-      <AppSidebar />
+      {/* Sidebar with mobile toggle state */}
+      <AppSidebar
+        mobileOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+      />
+
+      {/* Main Content Pane */}
       <div className="flex-1 flex flex-col min-w-0">
-        {children}
+        <AppHeader onToggleMobileMenu={() => setMobileMenuOpen(!mobileMenuOpen)} />
+        <div className="flex-1 overflow-y-auto">
+          {children}
+        </div>
       </div>
     </div>
   );
