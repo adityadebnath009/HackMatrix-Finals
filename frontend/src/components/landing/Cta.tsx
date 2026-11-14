@@ -1,19 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Calendar } from 'lucide-react';
 
 export default function Cta() {
   return (
     <section className="py-20 px-4 sm:px-6 max-w-5xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="p-8 sm:p-14 rounded-3xl border border-surface-highest/80 bg-gradient-to-b from-surface-low to-surface-lowest shadow-2xl backdrop-blur-xl text-center relative overflow-hidden"
-      >
+      <div className="p-8 sm:p-14 rounded-3xl border border-surface-highest/80 bg-gradient-to-b from-surface-low to-surface-lowest shadow-2xl backdrop-blur-xl text-center relative overflow-hidden">
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-48 bg-emerald-500/10 blur-[90px] -z-10 rounded-full pointer-events-none" />
 
@@ -47,7 +40,7 @@ export default function Cta() {
             <span>Schedule Private SecOps Briefing</span>
           </a>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

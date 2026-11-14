@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Bug, Code2, ShieldCheck } from 'lucide-react';
 
 const steps = [
@@ -57,13 +56,9 @@ export default function SafetyTriad() {
 
       {/* 3 Step Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {steps.map((s, idx) => (
-          <motion.div
+        {steps.map((s) => (
+          <div
             key={s.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: idx * 0.1 }}
             className={`p-7 rounded-2xl border transition-all duration-300 flex flex-col justify-between ${
               s.isHighlighted
                 ? 'bg-surface-low/90 border-emerald-500/50 shadow-[0_0_30px_rgba(16,185,129,0.15)] ring-1 ring-emerald-500/30'
@@ -107,7 +102,7 @@ export default function SafetyTriad() {
                 </span>
               ))}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

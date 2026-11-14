@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ShieldCheck, FileCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 const frameworks = [
@@ -56,13 +55,9 @@ export default function Compliance() {
 
       {/* 4 Story-Driven Framework Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {frameworks.map((f, idx) => (
-          <motion.div
+        {frameworks.map((f) => (
+          <div
             key={f.title}
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.35, delay: idx * 0.08 }}
             className="p-6 rounded-2xl border border-surface-highest/60 bg-surface-low/50 hover:bg-surface-low/80 backdrop-blur hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between"
           >
             <div>
@@ -85,18 +80,12 @@ export default function Compliance() {
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
               <span>Verified Audit Mapping</span>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       {/* In-Context Reassurance Callout */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.3 }}
-        className="mt-10 p-5 rounded-xl border border-surface-highest/50 bg-surface-low/40 backdrop-blur flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left"
-      >
+      <div className="mt-10 p-5 rounded-xl border border-surface-highest/50 bg-surface-low/40 backdrop-blur flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0">
             <ShieldCheck className="w-4 h-4" />
@@ -118,7 +107,7 @@ export default function Compliance() {
           <span>Open Audit Ledger in Workspace</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
-      </motion.div>
+      </div>
     </section>
   );
 }

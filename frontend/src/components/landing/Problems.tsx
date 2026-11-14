@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { ShieldX, FileWarning, GitFork } from 'lucide-react';
 
 const problems = [
@@ -66,13 +65,9 @@ export default function Problems() {
 
       {/* 3 Bento Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {problems.map((p, idx) => (
-          <motion.div
+        {problems.map((p) => (
+          <div
             key={p.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: idx * 0.1 }}
             className="p-6 rounded-2xl border border-surface-highest/60 bg-surface-low/60 hover:bg-surface-low/90 backdrop-blur transition-all duration-300 flex flex-col justify-between"
           >
             <div>
@@ -104,7 +99,7 @@ export default function Problems() {
                 {p.traceBody}
               </p>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

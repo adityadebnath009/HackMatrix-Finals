@@ -7,12 +7,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   Code2,
-  Sparkles,
   ArrowRight,
-  Terminal,
-  Activity,
-  CheckCircle2,
-  FileText,
   Lock,
 } from 'lucide-react';
 
@@ -26,46 +21,26 @@ export default function Hero() {
       <div className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] bg-cyan-500/10 blur-[120px] -z-10 rounded-full pointer-events-none" />
 
       {/* Top Pill Badge */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-surface-highest bg-surface-low/80 backdrop-blur text-xs font-mono text-emerald-400 mb-8"
-      >
+      <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-surface-highest bg-surface-low/80 backdrop-blur text-xs font-mono text-emerald-400 mb-8">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
         <span>CVE-2025-ZERO-DAY DEFLECTION ENGINE V4.2</span>
-      </motion.div>
+      </div>
 
       {/* Main Headline */}
-      <motion.h1
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white max-w-5xl leading-[1.08] mb-6"
-      >
+      <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white max-w-5xl leading-[1.08] mb-6">
         Autonomous AI Red-Teaming.{' '}
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
           Deterministic Real-Time Defense.
         </span>
-      </motion.h1>
+      </h1>
 
       {/* Humanized Subheadline */}
-      <motion.p
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-lg md:text-xl text-slate-300 max-w-3xl font-light mb-10 leading-relaxed"
-      >
+      <p className="text-lg md:text-xl text-slate-300 max-w-3xl font-light mb-10 leading-relaxed">
         Security shouldn&apos;t end with a PDF telling you what already broke. AEGISX puts hardened validation boundaries around your AI agents—blocking exploits before they reach execution and giving your team proof you can trust.
-      </motion.p>
+      </p>
 
       {/* CTA Button Group */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="flex flex-col sm:flex-row items-center gap-4 mb-14"
-      >
+      <div className="flex flex-col sm:flex-row items-center gap-4 mb-14">
         <Link
           href="/app"
           className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold shadow-[0_0_24px_rgba(16,185,129,0.4)] hover:shadow-[0_0_36px_rgba(16,185,129,0.6)] transition-all duration-200"
@@ -81,15 +56,10 @@ export default function Hero() {
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
           <span>Explore The Architecture</span>
         </a>
-      </motion.div>
+      </div>
 
       {/* 4 Telemetry Metrics Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mb-16 p-4 rounded-xl border border-surface-highest/50 bg-surface-low/50 backdrop-blur"
-      >
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mb-16 p-4 rounded-xl border border-surface-highest/50 bg-surface-low/50 backdrop-blur">
         <div className="flex flex-col items-center p-3 border-r border-surface-highest/40 last:border-r-0">
           <span className="text-[11px] font-mono uppercase text-slate-400 tracking-wider">Inline Latency</span>
           <span className="text-2xl font-bold font-mono text-emerald-400 mt-1">0ms</span>
@@ -110,15 +80,10 @@ export default function Hero() {
           <span className="text-2xl font-bold font-mono text-white mt-1">SHA-256</span>
           <span className="text-[10px] text-slate-500 font-mono">Ledger Certified</span>
         </div>
-      </motion.div>
+      </div>
 
       {/* 3-Phase Interactive State Engine Widget */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.45 }}
-        className="w-full max-w-5xl rounded-2xl border border-surface-highest/80 bg-surface-lowest/90 shadow-2xl backdrop-blur-xl overflow-hidden text-left"
-      >
+      <div className="w-full max-w-5xl rounded-2xl border border-surface-highest/80 bg-surface-lowest/90 shadow-2xl backdrop-blur-xl overflow-hidden text-left">
         {/* Terminal Window Header */}
         <div className="flex flex-wrap items-center justify-between px-5 py-3.5 border-b border-surface-highest/60 bg-surface-low/80">
           <div className="flex items-center gap-2.5">
@@ -178,10 +143,10 @@ export default function Hero() {
             {activePhase === 1 && (
               <motion.div
                 key="phase-1"
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
                 className="space-y-6"
               >
                 {/* Warning Banner */}
@@ -245,10 +210,10 @@ export default function Hero() {
             {activePhase === 2 && (
               <motion.div
                 key="phase-2"
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
                 className="space-y-6"
               >
                 {/* Auto Synthesis Banner */}
@@ -313,10 +278,10 @@ class TreasuryExecutionShield(BaseModel):
             {activePhase === 3 && (
               <motion.div
                 key="phase-3"
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
                 className="space-y-6"
               >
                 {/* Sealed Emerald Banner */}
@@ -374,7 +339,7 @@ class TreasuryExecutionShield(BaseModel):
             )}
           </AnimatePresence>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
