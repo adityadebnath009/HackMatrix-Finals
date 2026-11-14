@@ -68,14 +68,46 @@ AEGISX solves this by transitioning AI security from passive reporting to an **a
 
 ## 4 Demo links and a screenshot
 
-- **Live Application URL:** 
+- **Live Application URL:** https://hackmatrix-finals.onrender.com
 - **Demo Video Link:** 
-- **API Documentation (Swagger UI):** `http://localhost:8000/docs`
+### Application Screenshots
 
-### Application Screenshot
-*(Add your application screenshot below)*
+#### 1. Autonomous Closed-Loop Safety Triad Console (`/app/pipeline`)
+> Demonstrates the autonomous transition across the 4-Stage Defense Cascade (Input Normalizer, Deterministic Shield, Semantic RAG Intel, and Consensus LLM Judge).
 
-![AEGISX Platform Screenshot]()
+![AEGISX Closed-Loop Safety Console](frontend/assets/01_safety_pipeline_triad.png)
+
+---
+
+#### 2. Deterministic Pydantic Shield & 100% Deflection Sealed
+> Real-time compilation of type-safe Python Pydantic v2 boundaries (`TreasuryExecutionShield`) blocking high-frequency financial exfiltration ($14.2M exposure) with SHA-256 cryptographic commit to Neon PostgreSQL.
+
+![Pydantic Shield & Replay Verification](frontend/assets/02_pydantic_shield_deflection.png)
+
+---
+
+#### 3. Sub-50ms Inline Runtime Proxy Gateway (`/app/proxy`)
+> Live packet inspection and telemetry dashboard demonstrating sub-second execution, semantic intent classification (`BENIGN_QUERY`), and signed packet audit badges.
+
+![Live Proxy Gateway & Telemetry](frontend/assets/03_live_proxy_gateway.png)
+
+---
+
+#### 4. Enterprise AI Connectors & Arbitrary Ingress (`/app/connectors`)
+> Direct webhook and REST ingress enabling zero-friction red-team testing and runtime proxy defense for external customer AI models and OpenAI-compatible endpoints.
+
+![Enterprise AI Ingress & Connectors](frontend/assets/04_external_connectors.png)
+
+---
+
+#### 5. Editorial Landing Page & Regulatory Governance Architecture (`/`)
+> High-taste storytelling landing page detailing the Closed-Loop Safety Triad and statutory compliance mappings (EU AI Act Article 15, NIST AI RMF 1.0, ISO/IEC 42001, MITRE ATLAS™).
+
+| Editorial Landing Hero | Defense Architecture (Attack ➔ Defend ➔ Prove) |
+| :---: | :---: |
+| ![Editorial Landing Hero](frontend/assets/05_landing_hero.png) | ![Defense Architecture](frontend/assets/06_defense_architecture.png) |
+
+![Statutory Regulatory Confidence](frontend/assets/07_statutory_compliance.png)
 
 ---
 
