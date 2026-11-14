@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class BaseAppException(Exception):
@@ -8,7 +8,7 @@ class BaseAppException(Exception):
         message: str,
         status_code: int = 500,
         error_code: str = "INTERNAL_SERVER_ERROR",
-        details: Optional[Dict[str, Any]] = None
+        details: dict[str, Any] | None = None
     ):
         super().__init__(message)
         self.message = message
@@ -41,7 +41,7 @@ class ResourceAlreadyExistsException(BaseAppException):
 
 class ValidationException(BaseAppException):
     """Raised for business logic validation failures."""
-    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None):
+    def __init__(self, message: str, details: dict[str, Any] | None = None):
         super().__init__(
             message=message,
             status_code=422,
@@ -72,7 +72,7 @@ class ForbiddenException(BaseAppException):
 
 class DatabaseOperationException(BaseAppException):
     """Raised when an unexpected database transaction or query error occurs."""
-    def __init__(self, operation: str, details: Optional[Dict[str, Any]] = None):
+    def __init__(self, operation: str, details: dict[str, Any] | None = None):
         super().__init__(
             message=f"Failed to execute database operation: {operation}",
             status_code=500,
@@ -83,7 +83,7 @@ class DatabaseOperationException(BaseAppException):
 
 class ExternalServiceException(BaseAppException):
     """Raised when an external API (LLM, Groq, Gemini, Neon) fails or times out."""
-    def __init__(self, service_name: str, message: str, details: Optional[Dict[str, Any]] = None):
+    def __init__(self, service_name: str, message: str, details: dict[str, Any] | None = None):
         super().__init__(
             message=f"External service '{service_name}' failed: {message}",
             status_code=502,

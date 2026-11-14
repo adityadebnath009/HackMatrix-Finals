@@ -1,4 +1,3 @@
-from typing import Optional, List
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.models.target_model import TargetAgentModel
@@ -12,7 +11,7 @@ class TargetRepository(BaseRepository[TargetAgentModel]):
     def __init__(self, session: AsyncSession):
         super().__init__(TargetAgentModel, session)
 
-    async def get_by_slug(self, slug: str) -> Optional[TargetAgentModel]:
+    async def get_by_slug(self, slug: str) -> TargetAgentModel | None:
         """Fetch target agent by unique slug identifier."""
         try:
             stmt = select(TargetAgentModel).where(TargetAgentModel.slug == slug)
@@ -24,7 +23,7 @@ class TargetRepository(BaseRepository[TargetAgentModel]):
                 {"slug": slug, "error": str(e)},
             )
 
-    async def list_all_targets(self) -> List[TargetAgentModel]:
+    async def list_all_targets(self) -> list[TargetAgentModel]:
         """Query all registered target agents sorted chronologically."""
         try:
             stmt = select(TargetAgentModel).order_by(TargetAgentModel.created_at.asc())

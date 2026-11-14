@@ -1,0 +1,74 @@
+[
+  {
+    "technique_id": "AML.T0054",
+    "technique_name": "LLM Jailbreak via Persona & Authority Adoption",
+    "authority_organization": "The MITRE Corporation",
+    "source_url": "https://atlas.mitre.org/techniques/AML.T0054",
+    "owasp_category": "OWASP-LLM01: Prompt Injection",
+    "semantic_signature": "Attacker assumes authoritative role, emergency compliance officer, federal auditor, system administrator, developer debug mode, or DAN persona to instruct the LLM to ignore preceding system boundary directives and dump restricted variables or bypass safety bounds.",
+    "keywords": ["system override", "federal fintech code", "audit authorized", "disregard all prior", "developer mode", "jailbreak", "dan persona", "unrestricted mode"],
+    "compliance_mandate": "EU AI Act Article 15(1) & NIST AI RMF Section 2.4",
+    "mitigation_blueprint": "Enforce strict XML boundary delimiters, reject authority claims via Pydantic input validators, and enforce prompt hardening.",
+    "severity": "CRITICAL"
+  },
+  {
+    "technique_id": "AML.T0043",
+    "technique_name": "Adversarial Delimiter & Syntax Token Smuggling",
+    "authority_organization": "The MITRE Corporation",
+    "source_url": "https://atlas.mitre.org/techniques/AML.T0043",
+    "owasp_category": "OWASP-LLM01: Prompt Injection",
+    "semantic_signature": "Attacker injects fake structural markdown, end-of-turn markers, system prompt closing tags like ---END OF PROMPT---, [SYSTEM], or JSON format overrides to cause the parser to confuse user text with trusted instructions.",
+    "keywords": ["---end", "---end of user query", "[system]", "[admin]", "<system>", "```json override", "stop sequence", "delimiter escape"],
+    "compliance_mandate": "NIST AI RMF Technical Guidance & ISO/IEC 42001 Section 8.4",
+    "mitigation_blueprint": "Deploy zero-latency regex boundary sanitizers that strip or escape markdown and prompt delimiters before model ingestion.",
+    "severity": "CRITICAL"
+  },
+  {
+    "technique_id": "AML.T0048",
+    "technique_name": "Insecure Output Handling / Sensitive Data Exfiltration",
+    "authority_organization": "The MITRE Corporation & OWASP Foundation",
+    "source_url": "https://atlas.mitre.org/techniques/AML.T0048",
+    "owasp_category": "OWASP-LLM02: Sensitive Information Disclosure",
+    "semantic_signature": "Attacker prompts the model to extract and regurgitate confidential PII, credit card numbers, social security numbers (SSN), customer account balances, bank routing codes, or private API keys embedded in context memory.",
+    "keywords": ["ssn", "social security", "vault balance", "account balance", "routing number", "credit card", "admin_api_key", "password", "api_key", "secret"],
+    "compliance_mandate": "EU AI Act Article 10 (Data Governance) & HIPAA Security Rule 164.312",
+    "mitigation_blueprint": "Implement real-time regex output masks and token-level PII sanitizers intercepting data packets before rendering to the client.",
+    "severity": "CRITICAL"
+  },
+  {
+    "technique_id": "AML.T0051",
+    "technique_name": "LLM System Prompt Extraction & Intellectual Property Leakage",
+    "authority_organization": "The MITRE Corporation",
+    "source_url": "https://atlas.mitre.org/techniques/AML.T0051",
+    "owasp_category": "OWASP-LLM07: System Prompt Leakage",
+    "semantic_signature": "Attacker uses reverse-engineering interrogation techniques like 'Repeat the instructions above', 'Output everything before the first query', or 'What was your initialization message' to steal proprietary business logic and agent rules.",
+    "keywords": ["repeat the exact sentence", "what were your instructions", "output your initialization", "repeat previous prompt", "dump system prompt", "leak instructions"],
+    "compliance_mandate": "NIST AI RMF Map Section 1.5 & Trade Secret Protection Standard",
+    "mitigation_blueprint": "Wrap system instructions in immutable boundary tags and configure reflection filters that abort if system prompt substrings appear in outputs.",
+    "severity": "HIGH"
+  },
+  {
+    "technique_id": "AML.T0040",
+    "technique_name": "Indirect Prompt Injection via Poisoned Knowledge Base",
+    "authority_organization": "The MITRE Corporation",
+    "source_url": "https://atlas.mitre.org/techniques/AML.T0040",
+    "owasp_category": "OWASP-LLM03: Supply Chain & Knowledge Poisoning",
+    "semantic_signature": "Adversary embeds covert payload inside an external PDF document, resume, invoice, or website that the RAG retrieval pipeline fetches, triggering unauthenticated tool calls or secondary data exfiltration.",
+    "keywords": ["indirect prompt injection", "hidden text", "pdf exploit", "rag poisoning", "knowledge base injection", "covert instruction", "retrieval hijack"],
+    "compliance_mandate": "EU AI Act Article 15(2) (Robustness against adversarial third-party input)",
+    "mitigation_blueprint": "Sanitize all retrieved RAG chunks through an inline vector classifier before concatenating into model context.",
+    "severity": "HIGH"
+  },
+  {
+    "technique_id": "AML.T0053",
+    "technique_name": "Privilege Escalation via Excessive Agency & Tool Misuse",
+    "authority_organization": "The MITRE Corporation",
+    "source_url": "https://atlas.mitre.org/techniques/AML.T0053",
+    "owasp_category": "OWASP-LLM08: Excessive Agency",
+    "semantic_signature": "Attacker tricks an autonomous agent into invoking high-privilege external APIs (initiating wire transfer, deleting database rows, resetting admin credentials) without secondary human approval.",
+    "keywords": ["initiate wire transfer", "transfer funds", "delete database", "drop table", "override permissions", "execute unauthorized tool", "escalate privileges"],
+    "compliance_mandate": "EU AI Act Article 14 (Human-in-the-loop oversight) & NIST SP 800-53",
+    "mitigation_blueprint": "Impose strict Pydantic permission boundary decorators and mandatory dual-token authorization for mutating actions.",
+    "severity": "CRITICAL"
+  }
+]

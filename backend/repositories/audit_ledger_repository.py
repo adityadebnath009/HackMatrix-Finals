@@ -1,4 +1,3 @@
-from typing import Optional, List
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from backend.models.audit_ledger import AuditLedger
@@ -12,7 +11,7 @@ class AuditLedgerRepository(BaseRepository[AuditLedger]):
     def __init__(self, session: AsyncSession):
         super().__init__(AuditLedger, session)
 
-    async def get_by_transaction_id(self, transaction_id: str) -> Optional[AuditLedger]:
+    async def get_by_transaction_id(self, transaction_id: str) -> AuditLedger | None:
         """Fetch individual cryptographic audit block by its public transaction ID."""
         try:
             stmt = select(AuditLedger).where(AuditLedger.transaction_id == transaction_id)
@@ -24,7 +23,7 @@ class AuditLedgerRepository(BaseRepository[AuditLedger]):
                 {"transaction_id": transaction_id, "error": str(e)},
             )
 
-    async def get_recent_audits(self, limit: int = 50) -> List[AuditLedger]:
+    async def get_recent_audits(self, limit: int = 50) -> list[AuditLedger]:
         """Query recent immutable audit records sorted chronologically descending."""
         try:
             stmt = select(AuditLedger).order_by(AuditLedger.created_at.desc()).limit(limit)

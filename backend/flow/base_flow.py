@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any
 import logging
 from backend.exceptions.custom_exceptions import WorkflowExecutionException
 
@@ -12,7 +12,7 @@ class BaseFlow(ABC):
         self.logger = logging.getLogger(f"flow.{name}")
 
     @abstractmethod
-    async def execute(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Execute the flow steps end-to-end."""
         pass
 

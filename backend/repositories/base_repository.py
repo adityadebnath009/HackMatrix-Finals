@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Type, Optional, List, Any
+from typing import TypeVar, Generic, Type, Any
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, delete
 from backend.models.base import Base
@@ -14,7 +14,7 @@ class BaseRepository(Generic[ModelType]):
         self.model = model
         self.session = session
 
-    async def get_by_id(self, id: Any) -> Optional[ModelType]:
+    async def get_by_id(self, id: Any) -> ModelType | None:
         try:
             result = await self.session.execute(select(self.model).where(self.model.id == id))
             return result.scalar_one_or_none()
@@ -27,7 +27,7 @@ class BaseRepository(Generic[ModelType]):
             raise ResourceNotFoundException(self.model.__name__, id)
         return entity
 
-    async def list_all(self, limit: int = 100, offset: int = 0) -> List[ModelType]:
+    async def list_all(self, limit: int = 100, offset: int = 0) -> list[ModelType]:
         try:
             result = await self.session.execute(select(self.model).limit(limit).offset(offset))
             return list(result.scalars().all())
