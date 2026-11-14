@@ -43,3 +43,16 @@ When the backend is completed:
 ## Rule 6: Flawless, Intuitive Interaction
 - The way data is presented and how the user interacts with it must be smooth, natural, and effortless.
 - The user should never wonder "what do I click next?" or feel overwhelmed by moving parts.
+
+## Rule 7: The Closed-Loop AI Safety Triad (Adversary ➔ Synthesizer ➔ Verifier)
+Never build an open-loop reporter that merely dumps vulnerability logs. Every security and agentic pipeline must execute the closed triad:
+1. **Adversarial Red-Teaming (Groq <500ms):** Autonomous attack swarm generating real-time semantic exploits (jailbreaks, prompt injection, PII exfiltration).
+2. **Deterministic Auto-Synthesis (Gemini):** Automatically compiles executable Pydantic validation schemas and regex boundary filters—zero manual Colang or YAML.
+3. **Verified Cryptographic Ledger (Neon PostgreSQL):** Re-tests the attack against the shield, proving 100% deflection and recording an immutable SHA-256 audit transaction.
+
+## Rule 8: Demo-First Engineering & The 6:15 PM Hard Code Freeze
+- **Every line of code serves the 3-minute demo:** Features that do not visibly alter the red-to-green state transition or provide instant judge participation are out of scope.
+- **Strict 6:15 PM Hard Freeze:** Development halts permanently at 6:15 PM. The final 45 minutes are strictly reserved for:
+  1. Recording the 45-second backup QuickTime demo tape (`Cmd + Shift + 5`).
+  2. Early submission on the MLH portal (avoiding last-minute portal crashes).
+  3. Two complete rehearsals of the 3-minute pitch choreography.

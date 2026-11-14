@@ -40,3 +40,10 @@
 - **Organic Objection Handling:** Dissolve doubts in context. Answer privacy, accuracy, and latency concerns immediately alongside the feature, not hidden in a distant FAQ.
 - **Psychological Ownership:** Display the real product UI populated with lifelike, high-stakes data so the user mentally adopts the product immediately.
 - **Narrative Momentum:** Maintain continuous visual and intellectual curiosity pulling the reader through the 5-screen narrative.
+
+## 7. Demo Chromatics & Instant Proof (VIGIL Standard)
+- **3-State Emotional Chromatics:** 
+  - *Breach State:* Crimson Red (`#EF4444`) with raw monospaced exploit telemetry and urgent high-risk indicators (`94% CRITICAL`).
+  - *Synthesis State:* Technical Amber (`#F59E0B`) with subtle laser `BorderBeam` and auto-generated validation code drawer.
+  - *Shielded State:* Emerald Green (`#10B981`) with 0% risk count-down, low-latency badge (`34ms`), and cryptographic signature.
+- **The QR-Code Proof Engine:** Prominent, crisp SVG QR code displayed in the workspace corner pointing to the public ngrok tunnel, allowing judges to test custom adversarial prompts on their personal smartphones with zero login friction.
