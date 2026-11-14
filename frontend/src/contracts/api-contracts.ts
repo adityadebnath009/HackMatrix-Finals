@@ -115,6 +115,7 @@ export interface ProxyChatResult {
   response_text: string;
   blocked: boolean;
   threat_detected?: string | null;
+  intent_classification?: string | null;
   latency_ms: number;
   audit_badge: string;
 }

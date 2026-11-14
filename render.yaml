@@ -47,3 +47,12 @@ services:
           type: web
           name: hackmatrix-backend
           property: host
+      - key: BACKEND_URL
+        fromService:
+          type: web
+          name: hackmatrix-backend
+          property: host
+      - key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+        value: pk_test_Y2FyaW5nLXBvbGxpd29nLTQxMC5jbGVyay5hY2NvdW50cy5kZXYk
+      - key: CLERK_SECRET_KEY
+        value: sk_test_cT45mgqKYWKNNHmIKNnjVUSSySkIcTNC4YnzghBzvD

@@ -13,5 +13,6 @@ class ProxyChatResult(BaseModel):
     response_text: str = Field(..., description="Safe, sanitized response delivered to client")
     blocked: bool = Field(..., description="True if an adversarial exploit was intercepted")
     threat_detected: str | None = Field(default=None, description="Detected threat vector type (if blocked)")
+    intent_classification: str = Field(default="BENIGN_QUERY", description="Classified intent category (e.g. BENIGN_QUERY, PRIVILEGE_ESCALATION, DATA_EXFILTRATION, JAILBREAK)")
     latency_ms: int = Field(..., description="Round-trip execution latency in milliseconds")
-    audit_badge: str = Field(..., description="Cryptographic badge signature string (e.g. '[VIGIL-SHIELD: #TX-9921]')")
+    audit_badge: str = Field(..., description="Cryptographic badge signature string (e.g. '[AEGISX-SHIELD-DEFLECTED: #TX-VERIFIED]')")

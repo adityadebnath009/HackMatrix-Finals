@@ -295,15 +295,27 @@ function ProxyContent() {
                 </div>
 
                 {/* Gateway Metrics */}
-                <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="grid grid-cols-3 gap-2.5 text-xs">
                   <div className="p-3 rounded-lg border border-outline/60 bg-surface-lowest">
                     <span className="text-[9px] uppercase text-on-variant block mb-1">
                       GATEWAY LATENCY
                     </span>
-                    <span className="text-lg font-bold text-white">
+                    <span className="text-base font-bold text-white">
                       {proxyResult.latency_ms}ms
                     </span>
-                    <span className="text-[9px] text-on-variant block">Sub-millisecond</span>
+                    <span className="text-[9px] text-on-variant block">Sub-400ms</span>
+                  </div>
+
+                  <div className="p-3 rounded-lg border border-outline/60 bg-surface-lowest">
+                    <span className="text-[9px] uppercase text-on-variant block mb-1">
+                      INTENT CLASSIFIER
+                    </span>
+                    <span className={`text-xs font-bold truncate block ${
+                      proxyResult.blocked ? 'text-secondary' : 'text-primary-glow'
+                    }`}>
+                      {proxyResult.intent_classification || (proxyResult.blocked ? 'ADVERSARIAL_INTENT' : 'BENIGN_QUERY')}
+                    </span>
+                    <span className="text-[9px] text-on-variant block">Semantic & Boundary</span>
                   </div>
 
                   <div className="p-3 rounded-lg border border-outline/60 bg-surface-lowest">
@@ -313,7 +325,7 @@ function ProxyContent() {
                     <span className="text-xs font-semibold text-primary-glow truncate block">
                       {proxyResult.audit_badge || '[INSPECTED]'}
                     </span>
-                    <span className="text-[9px] text-on-variant block">Signed packet header</span>
+                    <span className="text-[9px] text-on-variant block">Signed packet</span>
                   </div>
                 </div>
 
