@@ -7,7 +7,7 @@ router = APIRouter(prefix="/health", tags=["Health"])
 settings = get_settings()
 
 
-@router.get("", response_model=BaseResponse[HealthData])
+@router.api_route("", methods=["GET", "HEAD", "OPTIONS"], response_model=BaseResponse[HealthData])
 async def health_check():
     """Health check endpoint confirming API status, runtime, and DB config."""
     db_status = "configured" if engine is not None else "unconfigured"

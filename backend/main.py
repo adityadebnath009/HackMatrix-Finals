@@ -58,7 +58,7 @@ app.include_router(health_router, prefix="/api")
 app.include_router(health_router)
 
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD", "OPTIONS"])
 async def root():
     return {
         "app": settings.APP_NAME,
