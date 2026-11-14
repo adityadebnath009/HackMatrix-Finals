@@ -15,6 +15,7 @@ const titles: Record<string, { title: string; subtitle: string }> = {
   '/app/pipeline': { title: 'Safety Pipeline', subtitle: 'Closed-Loop Triad Console' },
   '/app/proxy': { title: 'Live Proxy Gateway', subtitle: 'Inline Runtime Testing' },
   '/app/ledger': { title: 'Audit Ledger', subtitle: 'Cryptographic Proof & Compliance' },
+  '/app/connectors': { title: 'External Connectors', subtitle: 'Arbitrary AI Ingress Gateway' },
 };
 
 export default function AppHeader({ onToggleMobileMenu }: AppHeaderProps) {

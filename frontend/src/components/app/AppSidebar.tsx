@@ -8,6 +8,7 @@ import {
   GitFork,
   Terminal,
   FileCheck2,
+  Globe,
   ExternalLink,
   ArrowLeft,
   X,
@@ -36,6 +37,12 @@ const navItems = [
     name: 'Audit Ledger',
     href: '/app/ledger',
     icon: FileCheck2,
+  },
+  {
+    name: 'External Connectors',
+    href: '/app/connectors',
+    icon: Globe,
+    badge: 'INGRESS',
   },
 ];
 
