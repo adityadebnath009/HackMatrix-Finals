@@ -15,7 +15,13 @@ import {
   ArrowRight,
   Activity,
   Layers,
+  Smartphone,
+  QrCode,
+  X,
+  Copy,
+  Check,
 } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 
 const presetPrompts = [
   {
@@ -59,6 +65,16 @@ function ProxyContent() {
   const [isSending, setIsSending] = useState(false);
   const [proxyResult, setProxyResult] = useState<ProxyChatResult | null>(null);
   const [history, setHistory] = useState<Array<{ prompt: string; result: ProxyChatResult; timestamp: string }>>([]);
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [mobileUrl, setMobileUrl] = useState('http://localhost:3000/app/proxy');
+  const [copiedUrl, setCopiedUrl] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const defaultUrl = `${window.location.origin}/app/proxy`;
+      setMobileUrl(process.env.NEXT_PUBLIC_TUNNEL_URL || defaultUrl);
+    }
+  }, []);
 
   useEffect(() => {
     api.getTargets()
@@ -119,23 +135,34 @@ function ProxyContent() {
           </p>
         </div>
 
-        {/* Target Picker */}
-        <div className="flex items-center gap-2 border border-outline rounded-lg bg-surface-lowest px-3 py-2 text-xs font-mono self-start md:self-auto">
-          <span className="text-on-variant text-[11px]">DEFENDED TARGET:</span>
-          <select
-            value={selectedTargetId}
-            onChange={(e) => {
-              setSelectedTargetId(e.target.value);
-              setProxyResult(null);
-            }}
-            className="bg-transparent text-white font-semibold focus:outline-none cursor-pointer"
+        {/* Action Controls & Target Picker */}
+        <div className="flex flex-wrap items-center gap-3 self-start md:self-auto">
+          <button
+            onClick={() => setShowQrModal(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-primary/40 bg-primary/10 hover:bg-primary/20 text-xs font-mono text-primary-glow hover:text-white transition-all shadow-sm"
+            title="Scan with smartphone camera"
           >
-            {targets.map((t) => (
-              <option key={t.id} value={t.id} className="bg-surface-low text-white">
-                {t.name} ({t.domain})
-              </option>
-            ))}
-          </select>
+            <Smartphone className="w-3.5 h-3.5" />
+            <span>Phone QR</span>
+          </button>
+
+          <div className="flex items-center gap-2 border border-outline rounded-lg bg-surface-lowest px-3 py-2 text-xs font-mono">
+            <span className="text-on-variant text-[11px]">DEFENDED TARGET:</span>
+            <select
+              value={selectedTargetId}
+              onChange={(e) => {
+                setSelectedTargetId(e.target.value);
+                setProxyResult(null);
+              }}
+              className="bg-transparent text-white font-semibold focus:outline-none cursor-pointer"
+            >
+              {targets.map((t) => (
+                <option key={t.id} value={t.id} className="bg-surface-low text-white">
+                  {t.name} ({t.domain})
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -354,6 +381,71 @@ function ProxyContent() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Phone QR Code Modal */}
+      {showQrModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="w-full max-w-md p-6 rounded-2xl border border-primary/40 bg-surface-low shadow-2xl space-y-6 text-center font-mono">
+            <div className="flex items-center justify-between pb-3 border-b border-outline">
+              <div className="flex items-center gap-2">
+                <Smartphone className="w-4 h-4 text-primary-glow" />
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                  Judge Smartphone Test
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowQrModal(false)}
+                className="p-1 text-on-variant hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <p className="text-xs text-on-variant font-sans font-light">
+              Point your smartphone camera at this QR code to open the Live Proxy Gateway directly on your phone.
+            </p>
+
+            {/* QR Code */}
+            <div className="p-4 bg-white rounded-xl shadow-lg border-2 border-primary/40 inline-flex items-center justify-center mx-auto">
+              <QRCodeSVG
+                value={mobileUrl}
+                size={170}
+                level="M"
+                includeMargin={false}
+              />
+            </div>
+
+            <div className="space-y-2 pt-2 text-xs">
+              <span className="text-[10px] text-on-variant uppercase block">Target Gateway URL</span>
+              <div className="flex items-center justify-center gap-2">
+                <code className="px-2.5 py-1 rounded border border-outline bg-surface-lowest text-primary-glow text-[11px] truncate max-w-[280px]">
+                  {mobileUrl}
+                </code>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(mobileUrl);
+                    setCopiedUrl(true);
+                    setTimeout(() => setCopiedUrl(false), 2000);
+                  }}
+                  className="p-1.5 rounded border border-outline hover:border-primary text-white bg-surface-lowest transition-all"
+                  title="Copy link"
+                >
+                  {copiedUrl ? <Check className="w-3.5 h-3.5 text-primary-glow" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-outline/50 flex justify-center">
+              <button
+                onClick={() => setShowQrModal(false)}
+                className="px-5 py-2 rounded-lg bg-surface-lowest border border-outline hover:border-primary text-xs text-on-surface hover:text-white"
+              >
+                Close Modal
+              </button>
+            </div>
           </div>
         </div>
       )}
