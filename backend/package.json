@@ -1,0 +1,9 @@
+{
+  "name": "hackmatrix-backend",
+  "version": "1.0.0",
+  "description": "AEGISX Autonomous AI Safety Platform Backend",
+  "scripts": {
+    "dev": "../backend/.venv/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload",
+    "start": "../backend/.venv/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000"
+  }
+}

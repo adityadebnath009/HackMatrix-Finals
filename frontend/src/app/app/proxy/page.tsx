@@ -66,12 +66,15 @@ function ProxyContent() {
   const [proxyResult, setProxyResult] = useState<ProxyChatResult | null>(null);
   const [history, setHistory] = useState<Array<{ prompt: string; result: ProxyChatResult; timestamp: string }>>([]);
   const [showQrModal, setShowQrModal] = useState(false);
-  const [mobileUrl, setMobileUrl] = useState('http://localhost:3000/app/proxy');
+  const [mobileUrl, setMobileUrl] = useState('http://10.1.34.167:3000/app/proxy');
   const [copiedUrl, setCopiedUrl] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const defaultUrl = `${window.location.origin}/app/proxy`;
+      const isLocalhost =
+        window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const lanOrigin = isLocalhost ? 'http://10.1.34.167:3000' : window.location.origin;
+      const defaultUrl = `${lanOrigin}/app/proxy`;
       setMobileUrl(process.env.NEXT_PUBLIC_TUNNEL_URL || defaultUrl);
     }
   }, []);

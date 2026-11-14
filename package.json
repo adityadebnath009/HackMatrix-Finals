@@ -1,0 +1,12 @@
+{
+  "name": "hackmatrix",
+  "version": "1.0.0",
+  "description": "AEGISX - Autonomous AI Safety, RAG Threat Intel & Real-Time Defense Shield",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "./backend/.venv/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix frontend run start"
+  }
+}
