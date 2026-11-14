@@ -66,7 +66,7 @@ AEGISX solves this by transitioning AI security from passive reporting to an **a
 
 ---
 
-## 4 Demo links and a screenshot
+## 4 Live Application links and Screenshots
 
 - **Live Application URL:** https://hackmatrix-finals.onrender.com
 ### Application Screenshots
