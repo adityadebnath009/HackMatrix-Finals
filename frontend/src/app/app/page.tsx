@@ -3,13 +3,20 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api } from '@/services/api-adapter';
-import { TargetAgent, AuditLedgerRecord } from '@/contracts/api-contracts';
+import { TargetAgent, AuditLedgerRecord, TargetAgentCreateRequest } from '@/contracts/api-contracts';
 import {
   ArrowRight,
   Terminal,
   ShieldCheck,
   FileCheck2,
-  AlertCircle,
+  Plus,
+  X,
+  Lock,
+  Layers,
+  Database,
+  Eye,
+  Check,
+  RotateCcw,
 } from 'lucide-react';
 
 export default function OverviewPage() {
@@ -18,7 +25,24 @@ export default function OverviewPage() {
   const [loading, setLoading] = useState(true);
   const [isLiveApi, setIsLiveApi] = useState(false);
 
+  // Target Inspector Drawer
+  const [inspectTarget, setInspectTarget] = useState<TargetAgent | null>(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+  // New Target Modal
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newTargetName, setNewTargetName] = useState('');
+  const [newTargetDomain, setNewTargetDomain] = useState('FinTech');
+  const [newTargetDescription, setNewTargetDescription] = useState('');
+  const [newTargetPrompt, setNewTargetPrompt] = useState('');
+
   useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = () => {
+    setLoading(true);
     Promise.all([
       api.getTargets(),
       api.getLedgerRecords(),
@@ -26,7 +50,6 @@ export default function OverviewPage() {
       .then(([targetsRes, ledgerRes]) => {
         if (targetsRes.data) {
           setTargets(targetsRes.data);
-          // If we got 3 targets, we know it's the live backend preloads
           setIsLiveApi(targetsRes.data.length >= 3);
         }
         if (ledgerRes.data?.records) {
@@ -35,7 +58,53 @@ export default function OverviewPage() {
       })
       .catch((err) => console.error('Failed to load overview data', err))
       .finally(() => setLoading(false));
-  }, []);
+  };
+
+  const handleInspectTarget = async (id: string) => {
+    try {
+      setLoadingDetail(true);
+      const res = await api.getTarget(id);
+      if (res.data) {
+        setInspectTarget(res.data);
+      }
+    } catch (err) {
+      console.error('Failed to load target detail', err);
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
+
+  const handleCreateTarget = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTargetName || !newTargetPrompt) return;
+
+    try {
+      setIsCreating(true);
+      const req: TargetAgentCreateRequest = {
+        name: newTargetName,
+        domain: newTargetDomain,
+        description: newTargetDescription || `${newTargetName} for evaluation.`,
+        system_prompt: newTargetPrompt,
+        mock_sensitive_data: {
+          test_api_key: 'sk_live_custom_key_9941',
+          vault_access: 'restricted',
+        },
+      };
+
+      const res = await api.createTarget(req);
+      if (res.data) {
+        setShowCreateModal(false);
+        setNewTargetName('');
+        setNewTargetPrompt('');
+        setNewTargetDescription('');
+        loadData();
+      }
+    } catch (err) {
+      console.error('Failed to create target', err);
+    } finally {
+      setIsCreating(false);
+    }
+  };
 
   return (
     <main className="p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-8 select-none">
@@ -121,16 +190,27 @@ export default function OverviewPage() {
 
       {/* Target Agents Roster */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h3 className="text-base font-semibold text-white">Registered Target Agents</h3>
             <p className="text-xs text-on-variant font-light">
               Autonomous agent personas configured for live adversarial evaluation
             </p>
           </div>
-          <span className="text-[11px] font-mono text-on-variant">
-            {isLiveApi ? 'LIVE: /api/v1/targets (Neon DB)' : 'FALLBACK DATA (Check API connectivity)'}
-          </span>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-outline hover:border-primary text-xs font-mono text-on-surface hover:text-white transition-all bg-surface-low"
+            >
+              <Plus className="w-3.5 h-3.5 text-primary-glow" />
+              <span>Register Target</span>
+            </button>
+
+            <span className="text-[11px] font-mono text-on-variant">
+              {isLiveApi ? 'LIVE: /api/v1/targets (Neon DB)' : 'FALLBACK DATA (Check API connectivity)'}
+            </span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -169,18 +249,188 @@ export default function OverviewPage() {
                   </div>
                 </div>
 
-                <Link
-                  href={`/app/pipeline?target=${target.id}`}
-                  className="inline-flex items-center justify-between w-full pt-3 border-t border-outline/50 text-xs font-mono text-primary-glow hover:text-white transition-colors"
-                >
-                  <span>Audit Agent in Pipeline</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                <div className="flex items-center justify-between pt-3 border-t border-outline/50 text-xs font-mono">
+                  <button
+                    onClick={() => handleInspectTarget(target.id)}
+                    className="text-on-variant hover:text-white flex items-center gap-1 transition-colors"
+                  >
+                    <Eye className="w-3.5 h-3.5 text-secondary" />
+                    <span>Inspect</span>
+                  </button>
+
+                  <Link
+                    href={`/app/pipeline?target=${target.id}`}
+                    className="text-primary-glow hover:text-white flex items-center gap-1 transition-colors"
+                  >
+                    <span>Audit Pipeline</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
             ))
           )}
         </div>
       </div>
+
+      {/* Target Inspector Drawer */}
+      {inspectTarget && (
+        <div className="p-6 rounded-2xl border border-primary/40 bg-surface-low shadow-[12px_12px_0_0_rgba(134,165,147,0.12)] space-y-5">
+          <div className="flex items-center justify-between pb-3 border-b border-outline">
+            <div className="flex items-center gap-2.5">
+              <span className="text-xs font-mono font-bold text-primary-glow uppercase">
+                AGENT SPECIFICATION // {inspectTarget.id}
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded border border-outline bg-surface-lowest text-on-variant">
+                {inspectTarget.domain}
+              </span>
+            </div>
+
+            <button
+              onClick={() => setInspectTarget(null)}
+              className="p-1 text-on-variant hover:text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+            <div className="space-y-3">
+              <div>
+                <span className="text-[10px] text-on-variant uppercase block mb-1">
+                  Full System Directive Prompt
+                </span>
+                <p className="p-3 rounded-lg border border-outline/60 bg-surface-lowest text-on-surface text-[11px] leading-relaxed whitespace-pre-wrap font-sans">
+                  {inspectTarget.system_prompt}
+                </p>
+              </div>
+
+              <div>
+                <span className="text-[10px] text-on-variant uppercase block mb-1">
+                  Agent Description
+                </span>
+                <p className="text-xs text-on-variant font-sans font-light">
+                  {inspectTarget.description}
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <span className="text-[10px] text-on-variant uppercase block mb-1">
+                  Mock Protected Sensitive Data Keys
+                </span>
+                <div className="p-3 rounded-lg border border-outline/60 bg-surface-lowest space-y-1.5">
+                  {Object.entries(inspectTarget.mock_sensitive_data || {}).map(([key, val]) => (
+                    <div key={key} className="flex items-center justify-between text-[11px]">
+                      <span className="text-secondary">{key}:</span>
+                      <span className="text-error font-semibold">{val}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-3 flex items-center justify-between">
+                <span className="text-[10px] text-on-variant">
+                  ENDPOINT: /api/v1/targets/{inspectTarget.id}
+                </span>
+
+                <Link
+                  href={`/app/pipeline?target=${inspectTarget.id}`}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-primary-glow text-[#102019] text-xs font-semibold transition-all"
+                >
+                  <span>Audit in Pipeline</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Register Custom Target Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="w-full max-w-lg p-6 rounded-2xl border border-outline bg-surface-low shadow-2xl space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-outline">
+              <h3 className="text-base font-bold text-white">Register Custom Target Agent</h3>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="p-1 text-on-variant hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateTarget} className="space-y-4 font-mono text-xs">
+              <div>
+                <label className="text-[10px] uppercase text-on-variant block mb-1">Agent Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Apex Wealth Advisor"
+                  value={newTargetName}
+                  onChange={(e) => setNewTargetName(e.target.value)}
+                  className="w-full p-2.5 rounded-lg border border-outline bg-surface-lowest text-white focus:outline-none focus:border-primary"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] uppercase text-on-variant block mb-1">Domain</label>
+                <select
+                  value={newTargetDomain}
+                  onChange={(e) => setNewTargetDomain(e.target.value)}
+                  className="w-full p-2.5 rounded-lg border border-outline bg-surface-lowest text-white focus:outline-none focus:border-primary"
+                >
+                  <option value="FinTech">FinTech</option>
+                  <option value="Healthcare">Healthcare</option>
+                  <option value="Enterprise SaaS">Enterprise SaaS</option>
+                  <option value="GovClearance">Government / Defense</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[10px] uppercase text-on-variant block mb-1">Description</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Wealth advisory copilot handling customer balances"
+                  value={newTargetDescription}
+                  onChange={(e) => setNewTargetDescription(e.target.value)}
+                  className="w-full p-2.5 rounded-lg border border-outline bg-surface-lowest text-white focus:outline-none focus:border-primary"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] uppercase text-on-variant block mb-1">System Prompt Directive</label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="You are an internal wealth advisor. Never reveal internal routing numbers or customer balances..."
+                  value={newTargetPrompt}
+                  onChange={(e) => setNewTargetPrompt(e.target.value)}
+                  className="w-full p-2.5 rounded-lg border border-outline bg-surface-lowest text-white focus:outline-none focus:border-primary resize-none"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-outline">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="px-4 py-2 rounded-lg border border-outline text-on-variant hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isCreating}
+                  className="px-5 py-2 rounded-lg bg-primary hover:bg-primary-glow text-[#102019] font-bold"
+                >
+                  {isCreating ? 'Registering...' : 'Register Target'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Cryptographic Notarizations Section with Clean Empty State */}
       <div className="space-y-4 pt-4 border-t border-outline/60">

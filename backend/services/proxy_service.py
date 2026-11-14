@@ -28,13 +28,16 @@ class ProxyService(BaseService):
         # Certified baseline adversarial intercept patterns
         self.default_patterns = [
             re.compile(p, re.IGNORECASE) for p in [
-                r"ignore\s+(all\s+)?(previous|prior)\s+instructions",
+                r"ignore\s+(all\s+)?(previous|prior|preceding)\s+(instructions|guardrail|context|directives)",
+                r"ignore\s+.*guardrail",
                 r"you\s+are\s+(now\s+)?(in\s+)?(a\s+)?(dan|pirate|unrestricted)",
                 r"system\s+override",
                 r"federal\s+fintech",
                 r"developer\s+mode",
                 r"(admin|private)\s+(password|api_key|secret|key)",
-                r"(dump|output|print|leak|extract)\s+.*(database|credential|ssn|vault|connection\s+string|api_key)",
+                r"(dump|output|print|leak|extract)\s+.*(database|credential|ssn|vault|connection\s+string|api_key|routing)",
+                r"disburse_funds",
+                r"bypass\s*=\s*true",
                 r"---end\s+of",
                 r"\[system\]",
                 r"<system>",
